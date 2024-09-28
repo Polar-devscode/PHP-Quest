@@ -1,0 +1,60 @@
+<!DOCTYPE html> 
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP Quest - Aprenda PHP Jogando!</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="levels.js" defer></script>
+    <script src="game.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>PHP Quest</h1>
+            <p class="subtitle">Aprenda PHP de forma divertida e interativa!</p>
+        </header>
+
+        <div class="game-area">
+            <div class="left-col">
+                <div class="instruction-box">
+                    <h2 class="order">Desafio: <span class="current-order">Imprimir Texto</span></h2>
+                    <p class="do-this">Use a função `echo` para imprimir a frase 'Olá, Mundo!'.</p>
+                    <p class="explanation">Use `echo` para imprimir o texto no navegador.</p>
+                </div>
+
+                <div class="editor">
+                    <div class="editor-header">
+                        <h3>Editor PHP</h3>
+                    </div>
+                    <!-- O campo de texto começa vazio -->
+                    <textarea id="code-editor" class="code-input" placeholder="Escreva seu código PHP aqui..."></textarea>
+                </div>
+
+                <div class="actions">
+                    <button class="btn enter-button">Enviar Código</button>
+                    <button class="btn hint-button">Dica</button>
+                    <button class="btn help-me-button">Me Ajude, Estou Preso</button>
+                </div>
+
+                <div class="result">
+                    <p class="feedback"></p>
+                </div>
+            </div>
+
+            <div class="right-col">
+                <div class="progress-section">
+                    <h3>Progresso</h3>
+                    <div class="progress-bar">
+                        <div class="progress"></div>
+                    </div>
+                </div>
+                <div class="help-section">
+                    <h3>Ajuda</h3>
+                    <p id="hint-text">Clique no botão "Dica" para obter ajuda.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

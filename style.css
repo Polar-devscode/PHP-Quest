@@ -1,0 +1,220 @@
+/* Geral */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    font-family: 'Arial', sans-serif;
+    background-color: #1e1e1e;
+    color: #fff;
+    height: 100%;
+    width: 100%;
+    background: radial-gradient(circle, #2e2a23 0%, #221e17 100%);
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Cabeçalho */
+header {
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+header h1 {
+    font-size: 3rem;
+    color: #00c8ff;
+    margin-bottom: 10px;
+    text-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    transform: rotateX(15deg);
+    animation: titlePop 0.8s ease-out;
+}
+
+@keyframes titlePop {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+header .subtitle {
+    font-size: 1.3rem;
+    color: #aaa;
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    margin-top: 10px;
+}
+
+/* Área do jogo */
+.game-area {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    perspective: 800px;
+}
+
+.left-col {
+    width: 60%;
+    background-color: #2d2d2d;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    transform: rotateX(5deg);
+}
+
+.instruction-box {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.instruction-box h2 {
+    font-size: 2rem;
+    color: #fff;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+    margin-bottom: 10px;
+}
+
+.instruction-box .do-this, .instruction-box .explanation {
+    font-size: 1.2rem;
+    color: #ccc;
+    margin-top: 10px;
+    text-shadow: 0px 3px 4px rgba(0, 0, 0, 0.3);
+}
+
+.editor {
+    margin-bottom: 20px;
+}
+
+.editor-header {
+    background-color: #00c8ff;
+    color: white;
+    padding: 10px;
+    border-radius: 5px 5px 0 0;
+    text-align: center;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.editor textarea {
+    width: 100%;
+    height: 200px;
+    padding: 15px;
+    font-size: 1rem;
+    border: 1px solid #555;
+    border-radius: 0 0 5px 5px;
+    background-color: #333;
+    font-family: 'Courier New', monospace;
+    color: #fff;
+    outline: none;
+    box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.3);
+    resize: none;  /* Desabilita o redimensionamento do campo de texto */
+}
+
+/* Animação de foco no editor */
+.editor textarea:focus {
+    background-color: #2a2a2a;
+    border-color: #00c8ff;
+    box-shadow: 0px 0px 10px #00c8ff;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn {
+    background-color: #00c8ff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn:hover {
+    background-color: #0099cc;
+    transform: scale(1.05);
+}
+
+.result .feedback {
+    margin-top: 10px;
+    font-size: 1.2rem;
+}
+
+/* Coluna direita (Ajuda e Progresso) */
+.right-col {
+    width: 35%;
+    background-color: #2d2d2d;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    transform: rotateX(5deg);
+}
+
+.progress-section, .help-section {
+    margin-bottom: 20px;
+}
+
+.progress-section h3, .help-section h3 {
+    font-size: 1.8rem;
+    color: #00c8ff;
+    margin-bottom: 10px;
+    text-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+.progress-bar {
+    background-color: #555;
+    border-radius: 5px;
+    height: 20px;
+    width: 100%;
+    position: relative;
+    box-shadow: inset 0px 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.progress-bar .progress {
+    height: 100%;
+    background-color: #4CAF50;
+    border-radius: 5px;
+    width: 0%;
+    transition: width 0.4s ease;
+}
+
+#hint-text {
+    font-size: 1.2rem;
+    color: #ccc;
+    line-height: 1.5;
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Animação de shake */
+.shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .game-area {
+        flex-direction: column;
+    }
+
+    .left-col, .right-col {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
