@@ -1,6 +1,6 @@
 const levels = [
     {
-        levelTitle: "Nível 1 - Imprimir Texto",
+        levelTitle: "Nível 0 - Imprimir Texto",
         doThis: "Use a função `echo` para imprimir a frase 'Olá, Mundo!'.",
         explanation: "No PHP, usamos `echo` para imprimir texto.",
         expectedCode: "<?php\necho 'Olá, Mundo!';\n?>",
