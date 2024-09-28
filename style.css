@@ -1,4 +1,4 @@
-/* Geral */
+/* Estilos globais */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -17,7 +17,9 @@ html, body {
 .container {
     display: flex;
     flex-direction: column;
+    justify-content: center; /* Centraliza verticalmente todas as interfaces */
     align-items: center;
+    height: 100vh; /* Define a altura da tela inteira */
     padding: 20px;
 }
 
@@ -45,8 +47,45 @@ header h1 {
 header .subtitle {
     font-size: 1.3rem;
     color: #aaa;
-    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
     margin-top: 10px;
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Seleção de dificuldade */
+.difficulty-selection {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.difficulty-selection h2 {
+    font-size: 2rem;
+    color: #00c8ff;
+    margin-bottom: 20px;
+    text-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Botões de dificuldade */
+.difficulty-button {
+    background-color: #00c8ff;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    margin: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.difficulty-button:hover {
+    background-color: #0099cc;
+    transform: scale(1.05);
+}
+
+.difficulty-button:active {
+    transform: scale(0.98);
+    box-shadow: 0px 0px 10px rgba(0, 200, 255, 0.5);
 }
 
 /* Área do jogo */
@@ -56,6 +95,7 @@ header .subtitle {
     width: 100%;
     max-width: 1200px;
     perspective: 800px;
+    animation: fadeIn 0.5s ease-out;
 }
 
 .left-col {
@@ -64,7 +104,6 @@ header .subtitle {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-    transform: rotateX(5deg);
 }
 
 .instruction-box {
@@ -75,7 +114,6 @@ header .subtitle {
 .instruction-box h2 {
     font-size: 2rem;
     color: #fff;
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
     margin-bottom: 10px;
 }
 
@@ -83,9 +121,9 @@ header .subtitle {
     font-size: 1.2rem;
     color: #ccc;
     margin-top: 10px;
-    text-shadow: 0px 3px 4px rgba(0, 0, 0, 0.3);
 }
 
+/* Editor */
 .editor {
     margin-bottom: 20px;
 }
@@ -99,7 +137,23 @@ header .subtitle {
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-.editor textarea {
+/* Alterações Lucas 28/09 */
+#code-editor {
+    background-color: #333333;
+    border: none;
+    margin-left: 10px;
+    caret-color: #fff;
+    color: #fff;
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    resize: none;
+}
+
+#code-editor:focus {
+    outline: none;
+}
+
+.divTextArea {
     width: 100%;
     height: 200px;
     padding: 15px;
@@ -111,16 +165,17 @@ header .subtitle {
     color: #fff;
     outline: none;
     box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.3);
-    resize: none;  /* Desabilita o redimensionamento do campo de texto */
+    resize: none;
 }
 
-/* Animação de foco no editor */
-.editor textarea:focus {
+/* .editor textarea:focus {
     background-color: #2a2a2a;
     border-color: #00c8ff;
     box-shadow: 0px 0px 10px #00c8ff;
-}
+} */
 
+/* fim alterações Lucas 28/09 */
+/* Botões */
 .actions {
     display: flex;
     justify-content: space-between;
@@ -149,14 +204,13 @@ header .subtitle {
     font-size: 1.2rem;
 }
 
-/* Coluna direita (Ajuda e Progresso) */
+/* Coluna direita (Progresso e Ajuda) */
 .right-col {
     width: 35%;
     background-color: #2d2d2d;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-    transform: rotateX(5deg);
 }
 
 .progress-section, .help-section {
@@ -167,7 +221,6 @@ header .subtitle {
     font-size: 1.8rem;
     color: #00c8ff;
     margin-bottom: 10px;
-    text-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
 }
 
 .progress-bar {
@@ -191,7 +244,160 @@ header .subtitle {
     font-size: 1.2rem;
     color: #ccc;
     line-height: 1.5;
-    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Interface de conclusão de nível (Parabéns) */
+.completion-interface {
+    text-align: center;
+    padding: 30px;
+    background-color: #2d2d2d;
+    border-radius: 15px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+    max-width: 600px;
+    margin: 0 auto; /* Centralização horizontal */
+    animation: fadeIn 1s ease-out;
+}
+
+.completion-interface h2 {
+    font-size: 2.5rem;
+    color: #4CAF50;
+    margin-bottom: 20px;
+}
+
+.completion-interface p {
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+/* Botão da interface Parabéns */
+.completion-interface .btn {
+    background-color: #00c8ff;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    margin: 10px;
+}
+
+.completion-interface .btn:hover {
+    background-color: #0099cc;
+    transform: scale(1.05);
+}
+
+.completion-interface .btn:active {
+    transform: scale(0.98);
+}
+
+/* Interface de feedback (Obrigado por jogar) */
+.feedback-interface {
+    text-align: center;
+    padding: 30px;
+    background-color: #2d2d2d;
+    border-radius: 15px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+    max-width: 600px;
+    margin: 0 auto; /* Centralização horizontal */
+    animation: fadeIn 1s ease-out;
+}
+
+.feedback-interface h2 {
+    font-size: 2.5rem;
+    color: #4CAF50;
+    margin-bottom: 20px;
+}
+
+.feedback-interface p {
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+/* Estrelas de avaliação */
+.stars {
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.stars .star {
+    font-size: 2rem;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.stars .star:hover,
+.stars .star.selected {
+    color: #FFD700; /* Cor dourada para estrelas selecionadas */
+}
+
+/* Campo de feedback */
+.feedback-input {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #555;
+    border-radius: 10px;
+    background-color: #333;
+    color: #fff;
+    box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.4);
+    margin-bottom: 20px;
+    resize: none;
+}
+
+/* Botão de envio de feedback */
+.submit-feedback {
+    background-color: #00c8ff;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.submit-feedback:hover {
+    background-color: #0099cc;
+    transform: scale(1.05);
+}
+
+.niveis {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.nivel {
+    background-color: #00c8ff;
+    color: white;
+    padding: 9px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.0rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+
+/* Classe Criada Lucas 28/09 */
+.active {
+    background-color: #4CAF50;
+}
+/* fim das alterações Lucas 28/09 */
+
+
+/* Animação de entrada */
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
 }
 
 /* Animação de shake */

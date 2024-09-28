@@ -1,93 +1,194 @@
+// import capturarTexto from './tratar.js';
+
 var currentLevel = 0;
+var selectedDifficulty = ""; // Não há dificuldade selecionada por padrão
+var feedbackRating = 0; // Para armazenar a nota de estrelas do feedback
+var levelClient = 1;
 
 document.addEventListener("DOMContentLoaded", function () {
-    loadLevel();
+    // Seleção de dificuldade
+    document.querySelectorAll(".difficulty-button").forEach(button => {
+        button.addEventListener("click", function () {
+            selectedDifficulty = this.getAttribute("data-difficulty");
+            currentLevel = 0;
 
+            // Atualizar o título da página e o cabeçalho com base na dificuldade escolhida
+            updateTitle(selectedDifficulty);
+            
+            // Ocultar a seleção de dificuldade
+            document.querySelector(".difficulty-selection").style.display = "none";
+            
+            // Exibir a área do jogo
+            document.querySelector(".game-area").style.display = "flex";
+            
+            // Carregar o primeiro nível da dificuldade selecionada
+            loadLevel();
+        });
+    });
+
+    // Botão "Enviar Código"
     document.querySelector(".enter-button").addEventListener("click", function () {
         let code = document.querySelector("#code-editor").value;
         validateCode(code);
     });
 
+    // Botão "Dica"
     document.querySelector(".hint-button").addEventListener("click", function () {
         showHint();
     });
 
+    // Botão "Me Ajude, Estou Preso"
     document.querySelector(".help-me-button").addEventListener("click", function () {
         showAnswer();
     });
 
-    // Ouvinte para detecção de "?" seguido de Enter no editor
-    document.querySelector("#code-editor").addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-            const textarea = event.target;
-            const code = textarea.value;
-            const cursorPosition = textarea.selectionStart;
+    // Botão "Voltar"
+    document.querySelector(".back-button").addEventListener("click", function () {
+        // Ocultar a área do jogo
+        document.querySelector(".game-area").style.display = "none";
+        
+        // Exibir a seleção de dificuldade novamente
+        document.querySelector(".difficulty-selection").style.display = "block";
+        
+        // Resetar o estado do jogo
+        currentLevel = 0;
+        document.querySelector(".feedback").textContent = "";
+        document.querySelector("#code-editor").value = "";
+        document.querySelector("#hint-text").textContent = "Clique no botão 'Dica' para obter ajuda."; 
+        
+        // Restaurar o título padrão
+        document.querySelector("title").textContent = "PHP Quest - Aprenda PHP Jogando!";
+        document.querySelector("header h1").textContent = "PHP Quest";
+    });
 
-            // Verifica se o caractere anterior ao cursor é "?"
-            if (code.charAt(cursorPosition - 1) === "?") {
-                event.preventDefault(); // Evita a quebra de linha padrão
-                const beforeCursor = code.substring(0, cursorPosition - 1);
-                const afterCursor = code.substring(cursorPosition);
-
-                // Substitui "?" por "<?php\n\n?>"
-                textarea.value = beforeCursor + "<?php\n\n?>" + afterCursor;
-
-                // Coloca o cursor entre as tags <?php e ?>
-                textarea.selectionStart = textarea.selectionEnd = beforeCursor.length + 7; // Posiciona entre <?php e ?>
-            }
+    // Botão "Próximo" após completar o nível Avançado, transita para a interface de feedback
+    document.querySelector(".next-button").addEventListener("click", function () {
+        if (selectedDifficulty === "avancado") {
+            // Se estiver no nível avançado, exibe a interface de feedback
+            document.querySelector(".completion-interface").style.display = "none";
+            document.querySelector(".feedback-interface").style.display = "block";
+        } else {
+            moveToNextDifficulty(); // Função que move para o próximo nível de dificuldade
         }
+    });
+
+    // Interação de feedback - selecionar estrelas
+    document.querySelectorAll(".star").forEach(star => {
+        star.addEventListener("click", function () {
+            feedbackRating = this.getAttribute("data-value");
+            highlightStars(feedbackRating); // Função para destacar as estrelas selecionadas
+        });
+    });
+
+    // Botão para enviar o feedback
+    document.querySelector(".submit-feedback").addEventListener("click", function () {
+        let feedbackText = document.querySelector(".feedback-input").value;
+        alert(`Obrigado por seu feedback!\nNota: ${feedbackRating} estrelas\nFeedback: ${feedbackText}`);
+        
+        // Resetar o feedback e a página para a seleção de dificuldade
+        resetFeedback();
+        document.querySelector(".feedback-interface").style.display = "none";
+        document.querySelector(".difficulty-selection").style.display = "block";
     });
 });
 
+// Atualiza o título da página e do cabeçalho com base na dificuldade selecionada
+function updateTitle(difficulty) {
+    let titleText = "";
+    if (difficulty === "basico") {
+        titleText = "PHP Básico";
+    } else if (difficulty === "intermediario") {
+        titleText = "PHP Intermediário";
+    } else if (difficulty === "avancado") {
+        titleText = "PHP Avançado";
+    }
+
+    // Atualizar o título da página (na aba do navegador)
+    document.querySelector("title").textContent = titleText + " - Aprenda PHP Jogando!";
+    
+    // Atualizar o título no cabeçalho
+    document.querySelector("header h1").textContent = titleText;
+}
+
+// Função para mover para o próximo nível de dificuldade
+function moveToNextDifficulty() {
+    if (selectedDifficulty === "basico") {
+        selectedDifficulty = "intermediario"; // Muda para o próximo nível (Intermediário)
+    } else if (selectedDifficulty === "intermediario") {
+        selectedDifficulty = "avancado"; // Muda para o próximo nível (Avançado)
+    } 
+
+    // Atualizar o título para a nova dificuldade
+    updateTitle(selectedDifficulty);
+
+    // Resetar o progresso
+    resetProgressBar();
+
+    // Ocultar a interface de conclusão e exibir a área de jogo
+    document.querySelector(".completion-interface").style.display = "none";
+    document.querySelector(".game-area").style.display = "flex";
+
+    // Reiniciar o nível
+    currentLevel = 0;
+    loadLevel();
+}
+
 function loadLevel() {
-    let level = levels[currentLevel];
+    let level = levels[selectedDifficulty][currentLevel];
     document.querySelector(".current-order").textContent = level.levelTitle;
     document.querySelector(".do-this").textContent = level.doThis;
     document.querySelector(".explanation").textContent = level.explanation;
-    document.querySelector("#code-editor").value = ""; // O campo de texto começa vazio
+    
+    // Limpar o campo de texto (editor)
+    document.querySelector("#code-editor").value = ""; // Limpa o campo de texto
+    
+    // Resetar o texto de ajuda
+    document.querySelector("#hint-text").textContent = "Clique no botão 'Dica' para obter ajuda."; 
+
+    // Limpar qualquer feedback anterior
     document.querySelector(".feedback").textContent = "";
     resetStyles();
 }
 
 function validateCode(code) {
-    let level = levels[currentLevel];
-    const expectedOutput = getExpectedOutput(level);  // Saída esperada para o nível atual
+    let level = levels[selectedDifficulty][currentLevel];
 
-    fetch('validate.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: `code=${encodeURIComponent(code)}&expected_output=${encodeURIComponent(expectedOutput)}`
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            document.querySelector(".feedback").textContent = "Correto!";
-            document.querySelector(".feedback").classList.add("success");
-            updateProgress();
-            setTimeout(() => {
-                currentLevel++;
-                if (currentLevel < levels.length) {
-                    loadLevel();
-                } else {
-                    document.querySelector(".feedback").textContent = "Você completou todos os níveis!";
-                }
-            }, 1000);
-        } else {
-            document.querySelector(".feedback").textContent = data.message || "Tente novamente!";
-            document.querySelector(".feedback").classList.add("shake");
-            setTimeout(() => {
-                document.querySelector(".feedback").classList.remove("shake");
-            }, 500);
-        }
-    });
+    if (code.trim() === level.expectedCode[0].trim() || 
+        code.trim() === level.expectedCode[1].trim() || 
+        code.trim() === level.expectedCode[2].trim() ||
+        code.trim() === level.expectedCode[3].trim()) {
+
+        document.querySelector(".feedback").textContent = "Correto!";
+        document.querySelector(".feedback").classList.add("success");
+        updateProgress();
+        setTimeout(() => {
+            currentLevel++;
+            if (currentLevel < levels[selectedDifficulty].length) {
+                loadLevel();
+            } else {
+                // Exibir a interface de conclusão do nível
+                document.querySelector(".game-area").style.display = "none";
+                document.querySelector(".completion-interface").style.display = "block";
+            }
+        }, 1000);
+    } else {
+        document.querySelector(".feedback").textContent = "Tente novamente!";
+        document.querySelector(".feedback").classList.add("shake");
+        setTimeout(() => {
+            document.querySelector(".feedback").classList.remove("shake");
+        }, 500);
+    }
 }
 
-function getExpectedOutput(level) {
-    // Aqui, definimos como obter a saída esperada para cada nível.
-    // Isso pode ser configurado no objeto `levels` no `levels.js`.
-    return level.expectedOutput || '';  // Retorna a saída esperada definida no nível
+// Função para destacar as estrelas selecionadas
+function highlightStars(rating) {
+    document.querySelectorAll(".star").forEach(star => {
+        if (star.getAttribute("data-value") <= rating) {
+            star.style.color = "#FFD700"; // Destacar as estrelas selecionadas
+        } else {
+            star.style.color = "#ccc"; // Desmarcar as estrelas acima do valor
+        }
+    });
 }
 
 function resetStyles() {
@@ -96,17 +197,31 @@ function resetStyles() {
 }
 
 function showHint() {
-    let level = levels[currentLevel];
+    let level = levels[selectedDifficulty][currentLevel];
     document.querySelector("#hint-text").textContent = `Dica: ${level.hint}`;
 }
 
 function showAnswer() {
-    let level = levels[currentLevel];
-    document.querySelector("#hint-text").textContent = `Resposta: ${level.expectedCode}`;
+    let level = levels[selectedDifficulty][currentLevel];
+    
+    // Preencher o campo de texto com a resposta correta
+    document.querySelector("#code-editor").value = level.expectedCode;
 }
 
 function updateProgress() {
     let progressBar = document.querySelector(".progress");
-    let progressPercent = ((currentLevel + 1) / levels.length) * 100;
+    let progressPercent = ((currentLevel + 1) / levels[selectedDifficulty].length) * 100;
     progressBar.style.width = progressPercent + "%";
+}
+
+function resetProgressBar() {
+    let progressBar = document.querySelector(".progress");
+    progressBar.style.width = "0%"; // Reseta a barra de progresso para 0%
+}
+
+// Função para resetar o feedback
+function resetFeedback() {
+    feedbackRating = 0;
+    highlightStars(feedbackRating); // Resetar as estrelas
+    document.querySelector(".feedback-input").value = ""; // Limpar o campo de feedback
 }

@@ -1,5 +1,5 @@
-<!DOCTYPE html> 
-<html lang="pt-br">
+<!DOCTYPE html>
+<html lang="pt-Br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="levels.js" defer></script>
     <script src="game.js" defer></script>
+    <script src="tratar.js" defer></script>
 </head>
 <body>
     <div class="container">
@@ -15,8 +16,20 @@
             <p class="subtitle">Aprenda PHP de forma divertida e interativa!</p>
         </header>
 
-        <div class="game-area">
+        <!-- Seção de seleção de dificuldade -->
+        <div class="difficulty-selection">
+            <h2>Selecione a Dificuldade</h2>
+            <button class="difficulty-button" data-difficulty="basico">Básico</button>
+            <button class="difficulty-button" data-difficulty="intermediario">Intermediário</button>
+            <button class="difficulty-button" data-difficulty="avancado">Avançado</button>
+        </div>
+
+        <!-- Área do jogo (inicialmente oculta) -->
+        <div class="game-area" style="display: none;">
             <div class="left-col">
+                <!-- Botão para voltar à seleção de dificuldade -->
+                <button class="btn back-button" style="margin-bottom: 20px;">Voltar</button>
+
                 <div class="instruction-box">
                     <h2 class="order">Desafio: <span class="current-order">Imprimir Texto</span></h2>
                     <p class="do-this">Use a função `echo` para imprimir a frase 'Olá, Mundo!'.</p>
@@ -27,8 +40,17 @@
                     <div class="editor-header">
                         <h3>Editor PHP</h3>
                     </div>
-                    <!-- O campo de texto começa vazio -->
-                    <textarea id="code-editor" class="code-input" placeholder="Escreva seu código PHP aqui..."></textarea>
+                    <!-- Alterações Lucas 28/09 -->
+                    <div class="divTextArea">
+                        <div>
+                            <label class="">&lt;?php</label>
+                        </div>
+                        <textarea id="code-editor" placeholder="Escreva seu código PHP aqui..." rows="7" cols="63"></textarea>
+                        <div>
+                            <label class="">?&gt;</label>
+                        </div>
+                    </div>
+                    <!-- Fim das Alterações Lucas 28/09 -->
                 </div>
 
                 <div class="actions">
@@ -48,12 +70,44 @@
                     <div class="progress-bar">
                         <div class="progress"></div>
                     </div>
+                    <div class="niveis">
+                        <div class="nivel active">Nível 1</div>
+                        <div class="nivel">Nível 2</div>
+                        <div class="nivel">Nível 3</div>
+                        <div class="nivel">Nível 4</div>
+                        <div class="nivel">Nível 5</div>
+                    </div>
                 </div>
                 <div class="help-section">
                     <h3>Ajuda</h3>
                     <p id="hint-text">Clique no botão "Dica" para obter ajuda.</p>
                 </div>
             </div>
+        </div>
+
+        <!-- Interface de conclusão de nível (inicialmente oculta) -->
+        <div class="completion-interface" style="display: none;">
+            <h2>Parabéns!</h2>
+            <p>Você completou todos os desafios deste nível de dificuldade.</p>
+            <!-- Botão único de "Próximo" ao finalizar o nível avançado -->
+            <button class="btn next-button">Próximo</button>
+        </div>
+
+        <!-- Interface de feedback ao completar o nível Avançado (inicialmente oculta) -->
+        <div class="feedback-interface" style="display: none;">
+            <h2>🎉 Obrigado por jogar PHP Quest! 🎉</h2>
+            <p>Nos dê seu feedback e avalie o jogo:</p>
+            
+            <div class="stars">
+                <span class="star" data-value="1">&#9733;</span>
+                <span class="star" data-value="2">&#9733;</span>
+                <span class="star" data-value="3">&#9733;</span>
+                <span class="star" data-value="4">&#9733;</span>
+                <span class="star" data-value="5">&#9733;</span>
+            </div>
+            
+            <textarea class="feedback-input" placeholder="Deixe seu feedback aqui..."></textarea>
+            <button class="btn submit-feedback">Enviar Feedback</button>
         </div>
     </div>
 </body>
