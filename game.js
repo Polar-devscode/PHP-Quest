@@ -118,7 +118,6 @@ function moveToNextDifficulty() {
         selectedDifficulty = "avancado"; // Muda para o próximo nível (Avançado)
     } 
 
-    localStorage.setItem('dificulty', JSON.stringify(selectedDifficulty));
     // Atualizar o título para a nova dificuldade
     updateTitle(selectedDifficulty);
 
@@ -131,33 +130,24 @@ function moveToNextDifficulty() {
 
     // Reiniciar o nível
     currentLevel = 0;
-    localStorage.setItem('level', JSON.stringify(currentLevel));
     loadLevel();
 }
 
 function loadLevel() {
     let level = levels[selectedDifficulty][currentLevel];
-    if(localStorage.getItem('level') !== null){
-        if(localStorage.getItem('dificulty') !== null) {
-            currentLevel = localStorage.getItem('level');
-            selectedDifficulty = localStorage.getItem('dificulty');
-            mainScreen(level);
-        } else {
-            currentLevel = localStorage.getItem('level');
-            localStorage.setItem('dificulty', JSON.stringify(selectedDifficulty));
-            mainScreen(level);
-        }
-    } else {
-        if(localStorage.getItem('dificulty') !== null) {
-            localStorage.setItem('level', JSON.stringify(currentLevel));
-            selectedDifficulty = localStorage.getItem('dificulty');
-            mainScreen(level);
-        } else {
-            localStorage.setItem('level', JSON.stringify(currentLevel));
-            localStorage.setItem('dificulty', JSON.stringify(selectedDifficulty));
-            mainScreen(level);
-        }
-    }
+    document.querySelector(".current-order").textContent = level.levelTitle;
+    document.querySelector(".do-this").textContent = level.doThis;
+    document.querySelector(".explanation").textContent = level.explanation;
+    
+    // Limpar o campo de texto (editor)
+    document.querySelector("#code-editor").value = ""; // Limpa o campo de texto
+    
+    // Resetar o texto de ajuda
+    document.querySelector("#hint-text").textContent = "Clique no botão 'Dica' para obter ajuda."; 
+
+    // Limpar qualquer feedback anterior
+    document.querySelector(".feedback").textContent = "";
+    resetStyles();
 }
 
 function validateCode(code) {
@@ -173,7 +163,6 @@ function validateCode(code) {
         updateProgress();
         setTimeout(() => {
             currentLevel++;
-            localStorage.setItem('level', JSON.stringify(currentLevel));
             if (currentLevel < levels[selectedDifficulty].length) {
                 loadLevel();
             } else {
@@ -220,9 +209,7 @@ function showAnswer() {
 }
 
 function updateProgress() {
-    resetProgressBar();
     let progressBar = document.querySelector(".progress");
-    console.log("progressbar cl: ", currentLevel);
     let progressPercent = ((currentLevel + 1) / levels[selectedDifficulty].length) * 100;
     progressBar.style.width = progressPercent + "%";
 }
@@ -238,4 +225,3 @@ function resetFeedback() {
     highlightStars(feedbackRating); // Resetar as estrelas
     document.querySelector(".feedback-input").value = ""; // Limpar o campo de feedback
 }
-
