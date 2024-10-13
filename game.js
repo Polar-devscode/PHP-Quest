@@ -225,3 +225,4 @@ function resetFeedback() {
     highlightStars(feedbackRating); // Resetar as estrelas
     document.querySelector(".feedback-input").value = ""; // Limpar o campo de feedback
 }
+
