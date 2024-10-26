@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".difficulty-button").forEach(button => {
         button.addEventListener("click", function () {
             selectedDifficulty = this.getAttribute("data-difficulty");
-            currentLevel = 0;
 
             // Atualizar o título da página e o cabeçalho com base na dificuldade escolhida
             updateTitle(selectedDifficulty);
@@ -20,9 +19,9 @@ document.addEventListener("DOMContentLoaded", function () {
             
             // Exibir a área do jogo
             document.querySelector(".game-area").style.display = "flex";
-            
-            // Carregar o primeiro nível da dificuldade selecionada
-            loadLevel();
+
+             // Ao selecionar um nível, chame a função `iniciarLicao(nivelEscolhido)`
+            iniciarLicao(selectedDifficulty);
         });
     });
 
@@ -129,12 +128,11 @@ function moveToNextDifficulty() {
     document.querySelector(".game-area").style.display = "flex";
 
     // Reiniciar o nível
-    currentLevel = 0;
-    loadLevel();
+    loadLevel(0);
 }
 
-function loadLevel() {
-    let level = levels[selectedDifficulty][currentLevel];
+function loadLevel(levelAtual) {
+    let level = levels[selectedDifficulty][levelAtual];
     document.querySelector(".current-order").textContent = level.levelTitle;
     document.querySelector(".do-this").textContent = level.doThis;
     document.querySelector(".explanation").textContent = level.explanation;
@@ -147,12 +145,37 @@ function loadLevel() {
 
     // Limpar qualquer feedback anterior
     document.querySelector(".feedback").textContent = "";
+   
+    resetLevels(level);
     resetStyles();
+}
+
+// Função para salvar o progresso da lição de um nível específico
+function salvarProgresso(nivel, licaoAtual) {
+    // Ex: 'progresso_básico' ou 'progresso_intermediario'
+    let chave = 'progresso_'+nivel;
+    localStorage.setItem(chave, licaoAtual);
+}
+
+// Função para carregar o progresso salvo de um nível
+function carregarProgresso(nivel) {
+    let chave = 'progresso_'+nivel;
+    return localStorage.getItem(chave);
+}
+
+// Função para continuar de onde parou ou iniciar do zero
+function iniciarLicao(nivel) {
+    updateProgress();
+    let licaoSalva = carregarProgresso(nivel);
+    if (licaoSalva) {
+    loadLevel(licaoSalva);
+    } else {
+    loadLevel(0);
+    }
 }
 
 function validateCode(code) {
     let level = levels[selectedDifficulty][currentLevel];
-
     if (code.trim() === level.expectedCode[0].trim() || 
         code.trim() === level.expectedCode[1].trim() || 
         code.trim() === level.expectedCode[2].trim() ||
@@ -164,7 +187,8 @@ function validateCode(code) {
         setTimeout(() => {
             currentLevel++;
             if (currentLevel < levels[selectedDifficulty].length) {
-                loadLevel();
+                salvarProgresso(level.levelDificulty, currentLevel);
+                loadLevel(currentLevel);
             } else {
                 // Exibir a interface de conclusão do nível
                 document.querySelector(".game-area").style.display = "none";
@@ -224,4 +248,13 @@ function resetFeedback() {
     feedbackRating = 0;
     highlightStars(feedbackRating); // Resetar as estrelas
     document.querySelector(".feedback-input").value = ""; // Limpar o campo de feedback
+}
+
+function resetLevels(level) {
+    let levelSelected = document.querySelectorAll(".nivel");
+    levelSelected.forEach(function(value){
+        value.classList.remove('active');
+    });
+    let currentLevel = level.levelClient;
+    document.querySelector("#level"+currentLevel).classList.add('active');
 }

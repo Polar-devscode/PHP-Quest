@@ -1,6 +1,7 @@
 const levels = {
     basico: [
         {
+            levelDificulty: "basico",
             levelTitle: "Nível 1 - Imprimir Texto",
             levelClient: 1, 
             doThis: "Use a função `echo` para imprimir a frase 'Olá, Mundo!'.",
@@ -13,6 +14,7 @@ const levels = {
             hint: "Utilize `echo` seguido por uma string entre aspas simples para imprimir texto."
         },
         {
+            levelDificulty: "basico",
             levelTitle: "Nível 2 - Variáveis Simples",
             levelClient: 2,
             doThis: "Defina uma variável `$nome` e use `echo` para imprimir o valor dessa variável.",
@@ -25,6 +27,7 @@ const levels = {
             hint: "Atribua uma string à variável `$nome` e use `echo` para exibi-la."
         },
         {
+            levelDificulty: "basico",
             levelTitle: "Nível 3 - Condicional If",
             levelClient: 3,
             doThis: "Crie uma condição que verifique se `$idade` é maior que 18. Se for, imprima 'Maior de idade'. Caso contrário, imprima 'Menor de idade'.",
@@ -37,6 +40,7 @@ const levels = {
             hint: "Use `if ($variavel > valor)` para verificar se a variável é maior que o valor."
         },
         {
+            levelDificulty: "basico",
             levelTitle: "Nível 4 - Estruturas de Repetição",
             levelClient: 4,
             doThis: "Imprima os números de 1 a 5 utilizando um loop `for`.",
@@ -49,6 +53,7 @@ const levels = {
             hint: "A sintaxe básica de um `for` é: for (inicialização; condição; incremento) { código }."
         },
         {
+            levelDificulty: "basico",
             levelTitle: "Nível 5 - Funções Simples",
             levelClient: 5,
             doThis: "Crie uma função chamada `saudar` que imprime 'Olá, PHP!'.",
@@ -63,6 +68,7 @@ const levels = {
     ],
     intermediario: [
         {
+            levelDificulty: "intermediario",
             levelTitle: "Nível 1 - Arrays Simples",
             levelClient: 1,
             doThis: "Crie um array com três nomes(Ana, Bruno e Carlos) e imprima o segundo nome.",
@@ -75,6 +81,7 @@ const levels = {
             hint: "Acesse um valor de array usando o índice, por exemplo, `$array[indice]`."
         },
         {
+            levelDificulty: "intermediario",
             levelTitle: "Nível 2 - Loops com Arrays",
             levelClient: 2,
             doThis: "Crie um array com os valores ['Carro', 'Avião', 'Navio'] e use um loop `foreach` para imprimir todos os itens do array.",
@@ -87,6 +94,7 @@ const levels = {
             hint: "Crie um array com `['Carro', 'Avião', 'Navio']` e use o `foreach` para percorrê-lo."
         },
         {
+            levelDificulty: "intermediario",
             levelTitle: "Nível 3 - Manipulação de Strings",
             levelClient: 3,
             doThis: "Crie uma variável `$texto` contendo a string 'programar em php é divertido' e use a função `strtoupper` para converter o texto em maiúsculas.",
@@ -99,6 +107,7 @@ const levels = {
             hint: "Atribua a string 'programar em php é divertido' à variável `$texto` e utilize `strtoupper($texto)` para convertê-la em maiúsculas."
         },
         {
+            levelDificulty: "intermediario",
             levelTitle: "Nível 4 - Condicionais com Strings",
             levelClient: 4,
             doThis: "Crie uma variável `$frase` com o valor 'Eu adoro programar em PHP' e verifique se a string contém a palavra 'PHP' utilizando a função `strpos`. Se a palavra 'PHP' estiver presente, imprima 'Contém PHP'.",
@@ -111,6 +120,7 @@ const levels = {
             hint: "Use a função `strpos($frase, 'PHP')` para verificar se a palavra 'PHP' está presente na frase."
         },
         {
+            levelDificulty: "intermediario",
             levelTitle: "Nível 5 - Funções com Parâmetros",
             levelClient: 5,
             doThis: "Crie uma função chamada `saudar` que receba um parâmetro `$nome` e imprima a mensagem 'Olá, {nome}', onde `{nome}` é o valor passado como parâmetro. Teste a função chamando `saudar('João')`.",
@@ -125,6 +135,7 @@ const levels = {
     ],
     avancado: [
         {
+            levelDificulty: "avancado",
             levelTitle: "Nível 1 - PDO para Conexão com MySQL",
             levelClient: 1,
             doThis: "Crie uma conexão com um banco de dados MySQL chamado `test_db` hospedado em `localhost` usando PDO. O nome de usuário é `root` e a senha é `12345`. Exiba a mensagem 'Conexão bem-sucedida' se a conexão for estabelecida com sucesso.",
@@ -137,6 +148,7 @@ const levels = {
             hint: "Use `new PDO('mysql:host=localhost;dbname=test_db', 'root', '12345')` para criar a conexão. Utilize um bloco `try/catch` para capturar possíveis exceções."
         },
         {
+            levelDificulty: "avancado",
             levelTitle: "Nível 2 - Consultas com PDO",
             levelClient: 2,
             doThis: "Utilize PDO para conectar ao banco de dados `test_db` e executar uma consulta que selecione todos os registros da tabela `usuarios`. A tabela contém as colunas `id`, `nome` e `email`. Exiba o nome de cada usuário encontrado.",
@@ -149,6 +161,7 @@ const levels = {
             hint: "Use `PDO::query()` para executar a consulta e `fetch()` para percorrer os resultados."
         },
         {
+            levelDificulty: "avancado",
             levelTitle: "Nível 3 - Inserção de Dados com PDO",
             levelClient: 3,
             doThis: "Utilize PDO para conectar ao banco de dados `test_db` e inserir um novo registro na tabela `usuarios`. A tabela contém as colunas `id`, `nome`, e `email`. Insira um novo usuário com o nome 'Carlos' e o email 'carlos@email.com'.",
@@ -162,6 +175,7 @@ const levels = {
         }
         ,
         {
+            levelDificulty: "avancado",
             levelTitle: "Nível 4 - Atualização de Dados com PDO",
             levelClient: 4,
             doThis: "Utilize PDO para conectar ao banco de dados `test_db` e atualizar o email de um usuário na tabela `usuarios`. A tabela contém as colunas `id`, `nome`, e `email`. Atualize o email do usuário com `id = 1` para 'novoemail@email.com'.",
@@ -175,6 +189,7 @@ const levels = {
         }
         ,
         {
+            levelDificulty: "avancado",
             levelTitle: "Nível 5 - Exclusão de Dados com PDO",
             levelClient: 5,
             doThis: "Utilize PDO para conectar ao banco de dados `test_db` e excluir um registro na tabela `usuarios`. A tabela contém as colunas `id`, `nome`, e `email`. Exclua o usuário com `id = 1`.",
