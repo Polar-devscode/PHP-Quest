@@ -26,6 +26,18 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    document.querySelectorAll(".nivel").forEach(btn => {
+        btn.addEventListener("click", function () {
+            
+            var returnlevel= this.getAttribute ("id");
+            var retorno= parseInt(returnlevel.replace("level", ""))-1;
+            loadLevel(retorno);
+            var current_order= document.querySelector(".current-order").textContent;
+            var voltelevel= parseInt(current_order.replace(/\D/g,""));
+            updateProgress(voltelevel);
+        });
+    });
+
     // Botão "Enviar Código"
     document.querySelector(".enter-button").addEventListener("click", function () {
         let code = document.querySelector("#code-editor").value;
@@ -137,6 +149,7 @@ function loadLevel(levelAtual) {
     document.querySelector(".current-order").textContent = level.levelTitle;
     document.querySelector(".do-this").textContent = level.doThis;
     document.querySelector(".explanation").textContent = level.explanation;
+    updateProgress(level.levelClient);
     
     // Limpar o campo de texto (editor)
     document.querySelector("#code-editor").value = ""; // Limpa o campo de texto
@@ -166,7 +179,7 @@ function carregarProgresso(nivel) {
 
 // Função para continuar de onde parou ou iniciar do zero
 function iniciarLicao(nivel) {
-    updateProgress();
+    updateProgress(nivel);
     let licaoSalva = carregarProgresso(nivel);
     if (licaoSalva) {
     loadLevel(licaoSalva);
@@ -184,7 +197,7 @@ function validateCode(code) {
 
         document.querySelector(".feedback").textContent = "Correto!";
         document.querySelector(".feedback").classList.add("success");
-        updateProgress();
+        
         setTimeout(() => {
             currentLevel++;
             if (currentLevel < levels[selectedDifficulty].length) {
@@ -233,9 +246,9 @@ function showAnswer() {
     document.querySelector("#code-editor").value = level.expectedCode;
 }
 
-function updateProgress() {
+function updateProgress(currentLevel) {
     let progressBar = document.querySelector(".progress");
-    let progressPercent = ((currentLevel + 1) / levels[selectedDifficulty].length) * 100;
+    let progressPercent = ((currentLevel) / levels[selectedDifficulty].length) * 100;
     progressBar.style.width = progressPercent + "%";
 }
 
