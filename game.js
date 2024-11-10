@@ -4,6 +4,7 @@ var currentLevel = 0;
 var selectedDifficulty = ""; // Não há dificuldade selecionada por padrão
 var feedbackRating = 0; // Para armazenar a nota de estrelas do feedback
 var levelClient = 1;
+console.log (levelClient);
 
 document.addEventListener("DOMContentLoaded", function () {
     // Seleção de dificuldade
