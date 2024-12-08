@@ -4,7 +4,7 @@ const levels = {
             levelDificulty: "basico",
             levelTitle: "Nível 1 - Imprimir Texto",
             levelClient: 1, 
-            doThis: "Use a função `echo` para imprimir a frase 'Olá, Mundo!'.",
+            doThis: "Use a função `echo` para imprimir a frase 'Olá, Mundo!'. Atenção aos sinais de aspas para informar ao computador a frase como texto(string).",
             explanation: "No PHP, usamos `echo` para imprimir texto.",
             expectedCode: [
                 "echo 'Olá, Mundo!';", 
@@ -17,7 +17,7 @@ const levels = {
             levelDificulty: "basico",
             levelTitle: "Nível 2 - Variáveis Simples",
             levelClient: 2,
-            doThis: "Defina uma variável `$nome` e use `echo` para imprimir o valor dessa variável.",
+            doThis: "Defina uma variável `$nome` e use `echo` para imprimir o valor dessa variável. Vamos criar uma variável nome e mostrar o texto 'João'.",
             explanation: "Você pode definir variáveis no PHP com o símbolo `$` e depois usá-las com `echo`.",
             expectedCode: [
                 "$nome = 'João'; echo $nome;",
@@ -28,42 +28,56 @@ const levels = {
         },
         {
             levelDificulty: "basico",
-            levelTitle: "Nível 3 - Condicional If",
+            levelTitle: "Nível 3 - Tipos de dados",
             levelClient: 3,
-            doThis: "Crie uma condição que verifique se `$idade` é maior que 18. Se for, imprima 'Maior de idade'. Caso contrário, imprima 'Menor de idade'.",
-            explanation: "Você pode usar `if` e `else` para criar condições no PHP.",
+            doThis: "Crie uma variável do tipo texto, uma variável do tipo número inteiro e uma variável do tipo número decimal. O texto pode ser o nome 'João', o tipo número inteiro pode ser a idade do João 20 anos, e o tipo decimal pode ser a altura do João 1.80m. Ao final exiba os valores com o 'echo'.",
+            explanation: "Na programação podemos utilizar vários tipos de dados, números inteiros, texto, números decimais entre outros. Para o texto colocamos entre aspas(simples ou aspas duplas), para o inteiro apenas o número, para o número decimal colocamos o número seguido de ponto final(.);",
             expectedCode: [
-                "$idade = 20; if ($idade > 18) { echo 'Maior de idade'; } else { echo 'Menor de idade'; }",
-                "$idade = 20; if($idade > 18) { echo 'Maior de idade'; } else { echo 'Menor de idade'; }",
-                "$idade = 18; if($idade >= 18){ echo 'Maior de idade'; } else { echo 'Menor de idade'; }",
-                "$idade = 18; if($idade >= 18) { echo 'Maior de idade'; } else { echo 'Menor de idade'; }"],
-            hint: "Use `if ($variavel > valor)` para verificar se a variável é maior que o valor."
+                "$nome = 'João'; $idade = 20; $altura = 1.80; echo $nome, $idade, $altura;",
+                "$nome = 'Joao'; $idade = 20; $altura = 1.80; echo $nome, $idade, $altura;",
+                "$nome = 'joão'; $idade = 20; $altura = 1.80; echo $nome, $idade, $altura;",
+                "$nome = 'joao'; $idade = 20; $altura = 1.80; echo $nome, $idade, $altura;",
+            ],
+            hint: "Lembre-se de tipo texto com aspas(simples ou duplas), tipo inteiro apenas o número, e o tipo decimal precisa ser com ponto(.) nunca com vírgula."
         },
         {
             levelDificulty: "basico",
-            levelTitle: "Nível 4 - Estruturas de Repetição",
+            levelTitle: "Nível 4 - Operador Soma",
             levelClient: 4,
-            doThis: "Imprima os números de 1 a 5 utilizando um loop `for`.",
-            explanation: "O loop `for` permite que você repita um bloco de código várias vezes.",
+            doThis: "Crie a variavel 'a' com o valor 10, a variavel 'b' com o valor 20, some as duas e exiba o resultado com a variavel 'resultado'.",
+            explanation: "Para fazer uma soma precisamos de duas variaveis numéricas e uma de resultado, basta adicionar o valor das variaveis com o operador '+' e atribuir o valor com o sinal '='.",
             expectedCode: [
-                "for ($i = 1; $i <= 5; $i++) { echo $i; }",
-                "for($i=1; $i<=5; $i++) { echo $i; }",
-                "for ($i=1; $i<=5; $i++) { echo $i; }",
-                "for($i=1;$i<=5;$i++) { echo $i; }"],
-            hint: "A sintaxe básica de um `for` é: for (inicialização; condição; incremento) { código }."
+                "$a = 10; $b = 20; $resultado = $a + $b;",
+                "$num1 = 10; $num2 = 20; $resultado = $num1 + $num2;",
+                "$val1 = 10; $val2 = 20; $resultado = $val1 + $val2;",
+                "$var1 = 10; $var2 = 20; $resultado = $var1 + $var2;"],
+            hint: "Para fazer a soma é necessário no mínimo de 2 valores e 1 resultado, 'resultado' = 'valor1' + 'valor2'."
         },
         {
             levelDificulty: "basico",
-            levelTitle: "Nível 5 - Funções Simples",
+            levelTitle: "Nível 5 - Estruturas Condicionais",
             levelClient: 5,
-            doThis: "Crie uma função chamada `saudar` que imprime 'Olá, PHP!'.",
-            explanation: "Funções são blocos de código que podem ser chamados várias vezes.",
+            doThis: "Crie uma variável de idade com o valor 20, usando o 'if' e 'else', faça uma comparação de 'idade' se o resultado for maior que 18 exiba a frase 'permitido tirar carteira de habilitação', se o resultado for menor que 18 exiba a frase 'proibido tirar carteira de habilitação'.",
+            explanation: "Dentro do condicional é verifica se a centença é verdadeira ou falsa, caso seja verdadeira o bloco de código lido é o do interior do 'if', caso for falso o bloco de código lido é o do interior do 'else'.",
             expectedCode: [
-                "function saudar() { echo 'Olá, PHP!'; } saudar();",
-                "function saudar() { echo 'Olá PHP!'; } saudar();",
-                "function saudar() { echo 'ola php'; } saudar();",
-                "function saudar() { echo 'Ola PHP'; } saudar();"],
-            hint: "Use `function nomeDaFuncao() { código }` para definir uma função."
+                "$idade = 20; if($idade > 18){echo 'permitido tirar carteira de habilitação.';}else{echo 'proibido tirar carteira de habilitação.';}",
+                "$idade = 20; if($idade < 18){echo 'permitido tirar carteira de habilitação.';}else{echo 'proibido tirar carteira de habilitação.';}",
+                "$idade = 20; if($idade > 18){echo 'permitido tirar carteira de habilitacao.';}else{echo 'proibido tirar carteira de habilitação.';}",
+                "$idade = 20; if($idade < 18){echo 'permitido tirar carteira de habilitacao.';}else{echo 'proibido tirar carteira de habilitação.';}"],
+            hint: "Observe com atenção a forma que é feito a estrutura de condição, if(valor1 'operador condicional' valor2){ código } else { código }."
+        },
+        {
+            levelDificulty: "basico",
+            levelTitle: "Nível 6 - Estruturas de Repetição",
+            levelClient: 6,
+            doThis: "Crie uma repetição para contar numeros de 1 a 10. O laço de repetição é criado com o comando for seguido de uma variavel de início do laço($i = 1;), seguido de uma verificação condicional para o encerramento do laço($i < 10), seguido da quantidade de passos que será feito a contagem($i++).",
+            explanation: "O laço de repetição é criado com três partes principais, a variavel de início, a condição para determinar o término do laço, e o passo. Comumente usado a varivel $i para cada etapa.",
+            expectedCode: [
+                "for($i=1;$i<=10;$i++){echo $i;}",
+                "for($i=0;$i<10;$i++){echo $i;}",
+                "for($i=1;$i<11;$i++){echo $i;}",
+                "for($i=0;$i<9;$i++){echo $i;}"],
+            hint: "Use a condição para indicar qual o término do laço, sinais de >(maior), <(menor), >=(maior e igual), <=(menor e igual)."
         }
     ],
     intermediario: [

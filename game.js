@@ -1,10 +1,8 @@
 // import capturarTexto from './tratar.js';
 
-var currentLevel = 0;
 var selectedDifficulty = ""; // Não há dificuldade selecionada por padrão
 var feedbackRating = 0; // Para armazenar a nota de estrelas do feedback
 var levelClient = 1;
-console.log (levelClient);
 
 document.addEventListener("DOMContentLoaded", function () {
     // Seleção de dificuldade
@@ -28,12 +26,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.querySelectorAll(".nivel").forEach(btn => {
         btn.addEventListener("click", function () {
-            
-            var returnlevel= this.getAttribute ("id");
-            var retorno= parseInt(returnlevel.replace("level", ""))-1;
+            var returnlevel = this.getAttribute("id");
+            var retorno = parseInt(returnlevel.replace("level", ""))-1;
+            let localItem = "progresso_"+selectedDifficulty;
+            localStorage.setItem(localItem, retorno);
             loadLevel(retorno);
-            var current_order= document.querySelector(".current-order").textContent;
-            var voltelevel= parseInt(current_order.replace(/\D/g,""));
+            var current_order = document.querySelector(".current-order").textContent;
+            var voltelevel = parseInt(current_order.replace(/\D/g,""));
             updateProgress(voltelevel);
         });
     });
@@ -145,7 +144,8 @@ function moveToNextDifficulty() {
 }
 
 function loadLevel(levelAtual) {
-    let level = levels[selectedDifficulty][levelAtual];
+    let currentLevel = levelAtual;
+    let level = levels[selectedDifficulty][currentLevel];
     document.querySelector(".current-order").textContent = level.levelTitle;
     document.querySelector(".do-this").textContent = level.doThis;
     document.querySelector(".explanation").textContent = level.explanation;
@@ -189,6 +189,7 @@ function iniciarLicao(nivel) {
 }
 
 function validateCode(code) {
+    let currentLevel = localStorage.getItem('progresso_'+selectedDifficulty);
     let level = levels[selectedDifficulty][currentLevel];
     if (code.trim() === level.expectedCode[0].trim() || 
         code.trim() === level.expectedCode[1].trim() || 
