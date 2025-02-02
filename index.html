@@ -11,10 +11,15 @@
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>PHP Quest</h1>
-            <p class="subtitle">Aprenda PHP de forma divertida e interativa!</p>
-        </header>
+        <div class="cabecalho">
+            <div class="btnVoltar">
+                <button class="back-button">Voltar</button>
+            </div>
+            <header>
+                <h1 id="titulo" class="titlePop">PHP Quest</h1>
+                <p class="subtitle">Aprenda PHP de forma divertida e interativa!</p>
+            </header>
+        </div>
 
         <!-- Seção de seleção de dificuldade -->
         <div class="difficulty-selection">
@@ -26,50 +31,12 @@
 
         <!-- Área do jogo (inicialmente oculta) -->
         <div class="game-area" style="display: none;">
-            <div class="left-col">
-                <!-- Botão para voltar à seleção de dificuldade -->
-                <button class="btn back-button" style="margin-bottom: 20px;">Voltar</button>
-
-                <div class="instruction-box">
-                    <h2 class="order">Desafio: <span class="current-order">Imprimir Texto</span></h2>
-                    <p class="do-this">Use a função `echo` para imprimir a frase 'Olá, Mundo!'.</p>
-                    <p class="explanation">Use `echo` para imprimir o texto no navegador.</p>
-                </div>
-
-                <div class="editor">
-                    <div class="editor-header">
-                        <h3>Editor PHP</h3>
+            <div class="progress-section">
+                <div class="niveis">
+                    <div class="titulo-progress">
+                        <h3>Progresso</h3>
                     </div>
-                    <!-- Area de escrita do código pelo usuário -->
-                    <div class="divTextArea">
-                        <div>
-                            <label class="">&lt;?php</label>
-                        </div>
-                        <textarea id="code-editor" placeholder="Escreva seu código PHP aqui..." rows="7" cols="63"></textarea>
-                        <div>
-                            <label class="">?&gt;</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="actions">
-                    <button class="btn enter-button">Enviar Código</button>
-                    <button class="btn hint-button">Dica</button>
-                    <button class="btn help-me-button">Me Ajude, Estou Preso</button>
-                </div>
-
-                <div class="result">
-                    <p class="feedback"></p>
-                </div>
-            </div>
-
-            <div class="right-col">
-                <div class="progress-section">
-                    <h3>Progresso</h3>
-                    <div class="progress-bar">
-                        <div class="progress"></div>
-                    </div>
-                    <div class="niveis">
+                    <div class="niveis-progress">
                         <div id="level1" class="nivel active">Nível 1</div>
                         <div id="level2" class="nivel">Nível 2</div>
                         <div id="level3" class="nivel">Nível 3</div>
@@ -77,10 +44,43 @@
                         <div id="level5" class="nivel">Nível 5</div>
                     </div>
                 </div>
-                <div class="help-section">
-                    <h3>Ajuda</h3>
-                    <p id="hint-text">Clique no botão "Dica" para obter ajuda.</p>
+                <div class="progress-bar">
+                    <div class="progress"></div>
                 </div>
+            </div>
+            <div class="instruction-box">
+                <h2 class="order">Desafio: <span class="current-order">Imprimir Texto</span></h2>
+                <p class="do-this">Use a função `echo` para imprimir a frase 'Olá, Mundo!'.</p>
+                <p class="explanation">Use `echo` para imprimir o texto no navegador.</p>
+            </div>
+            <div class="editor">
+                <div class="editor-header">
+                    <h3>Editor PHP</h3>
+                </div>
+                <!-- Area de escrita do código pelo usuário -->
+                <div class="divTextArea">
+                    <div>
+                        <label class="">&lt;?php</label>
+                    </div>
+                    <textarea id="code-editor" placeholder="Escreva seu código PHP aqui..." rows="7" cols="63"></textarea>
+                    <div>
+                        <label class="">?&gt;</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="btn enter-button">Enviar Código</button>
+                <button class="btn hint-button">Dica</button>
+                <button class="btn help-me-button">Me Ajude, Estou Preso</button>
+            </div>
+
+            <div class="result">
+                <p class="feedback"></p>
+            </div>
+            <div class="help-section">
+                <h3>Ajuda</h3>
+                <p id="hint-text">Clique no botão "Dica" para obter ajuda.</p>
             </div>
         </div>
 

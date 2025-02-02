@@ -3,6 +3,13 @@
 var selectedDifficulty = ""; // Não há dificuldade selecionada por padrão
 var feedbackRating = 0; // Para armazenar a nota de estrelas do feedback
 var levelClient = 1;
+var difficultySelection = document.querySelector(".difficulty-selection");
+var btnVoltar = document.querySelector(".btnVoltar");
+var body = document.querySelector("body");
+var gameArea = document.querySelector(".game-area");
+var titulo = document.querySelector("#titulo");
+var subtitle = document.querySelector(".subtitle");
+var header = document.querySelector("header");
 
 document.addEventListener("DOMContentLoaded", function () {
     // Seleção de dificuldade
@@ -14,10 +21,16 @@ document.addEventListener("DOMContentLoaded", function () {
             updateTitle(selectedDifficulty);
             
             // Ocultar a seleção de dificuldade
-            document.querySelector(".difficulty-selection").style.display = "none";
+            difficultySelection.style.display = "none";
+            btnVoltar.style.display = "block";
+            body.style.display = "block";
             
             // Exibir a área do jogo
-            document.querySelector(".game-area").style.display = "flex";
+            gameArea.style.display = "flex";
+            titulo.classList.remove('titlePop');
+            titulo.style.fontSize = "1.3rem";
+            subtitle.style.fontSize = "1rem";
+            header.style.display = "flex";
 
              // Ao selecionar um nível, chame a função `iniciarLicao(nivelEscolhido)`
             iniciarLicao(selectedDifficulty);
@@ -56,10 +69,16 @@ document.addEventListener("DOMContentLoaded", function () {
     // Botão "Voltar"
     document.querySelector(".back-button").addEventListener("click", function () {
         // Ocultar a área do jogo
-        document.querySelector(".game-area").style.display = "none";
+        gameArea.style.display = "none";
+        btnVoltar.style.display = "none";
+        body.style.display = "flex";
         
         // Exibir a seleção de dificuldade novamente
-        document.querySelector(".difficulty-selection").style.display = "block";
+        difficultySelection.style.display = "block";
+
+        titulo.classList.add('titlePop');
+        titulo.style.fontSize = "3rem";
+        header.style.display = "block";
         
         // Resetar o estado do jogo
         currentLevel = 0;
@@ -69,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
         
         // Restaurar o título padrão
         document.querySelector("title").textContent = "PHP Quest - Aprenda PHP Jogando!";
-        document.querySelector("header h1").textContent = "PHP Quest";
+        titulo.textContent = "PHP Quest";
     });
 
     // Botão "Próximo" após completar o nível Avançado, transita para a interface de feedback
@@ -99,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Resetar o feedback e a página para a seleção de dificuldade
         resetFeedback();
         document.querySelector(".feedback-interface").style.display = "none";
-        document.querySelector(".difficulty-selection").style.display = "block";
+        difficultySelection.style.display = "block";
     });
 });
 
@@ -118,7 +137,7 @@ function updateTitle(difficulty) {
     document.querySelector("title").textContent = titleText + " - Aprenda PHP Jogando!";
     
     // Atualizar o título no cabeçalho
-    document.querySelector("header h1").textContent = titleText;
+    titulo.textContent = titleText;
 }
 
 // Função para mover para o próximo nível de dificuldade
@@ -137,7 +156,7 @@ function moveToNextDifficulty() {
 
     // Ocultar a interface de conclusão e exibir a área de jogo
     document.querySelector(".completion-interface").style.display = "none";
-    document.querySelector(".game-area").style.display = "flex";
+    gameArea.style.display = "flex";
 
     // Reiniciar o nível
     loadLevel(0);
@@ -206,7 +225,7 @@ function validateCode(code) {
                 loadLevel(currentLevel);
             } else {
                 // Exibir a interface de conclusão do nível
-                document.querySelector(".game-area").style.display = "none";
+                gameArea.style.display = "none";
                 document.querySelector(".completion-interface").style.display = "block";
             }
         }, 1000);
