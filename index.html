@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PHP Quest - Aprenda PHP Jogando!</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="./icons/favicon.png" type="image/x-icon">
     <script src="levels.js" defer></script>
     <script src="game.js" defer></script>
     <!-- <script src="tratar.js" defer></script> -->
@@ -13,7 +14,7 @@
     <div class="container">
         <div class="cabecalho">
             <div class="btnVoltar">
-                <button class="back-button">Voltar</button>
+                <img class="back-button" src="./icons/retornarPreenchido.png" alt="">
             </div>
             <header>
                 <h1 id="titulo" class="titlePop">PHP Quest</h1>
@@ -49,39 +50,48 @@
                 </div>
             </div>
             <div class="instruction-box">
-                <h2 class="order">Desafio: <span class="current-order">Imprimir Texto</span></h2>
-                <p class="do-this">Use a função `echo` para imprimir a frase 'Olá, Mundo!'.</p>
-                <p class="explanation">Use `echo` para imprimir o texto no navegador.</p>
+                <div class="lvlTitle">
+                    <h2 class="order">Desafio: <span class="current-order">Imprimir Texto</span></h2>
+                </div>
+                <div class="toDo">
+                    <p class="do-this">Use a função `echo` para imprimir a frase 'Olá, Mundo!'.</p>
+                    <p class="explanation">Use `echo` para imprimir o texto no navegador.</p>
+                </div>
             </div>
             <div class="editor">
                 <div class="editor-header">
-                    <h3>Editor PHP</h3>
+                    <div class="editor-title">
+                        <h3>Editor PHP</h3>
+                    </div>
+                    <!-- <div class="editor-button">
+                        <button class="btn hint-button"><img class="iconDica" src="./icons/dica.png" alt=""> Dica</button>
+                    </div> -->
                 </div>
                 <!-- Area de escrita do código pelo usuário -->
                 <div class="divTextArea">
-                    <div>
-                        <label class="">&lt;?php</label>
+                    <button class="btn hint-button"><img class="iconDica" src="./icons/dica.png" alt=""> Dica</button>
+                    <div class="div-open-php">
+                        <label class="open-php">&lt;?php</label>
                     </div>
-                    <textarea id="code-editor" placeholder="Escreva seu código PHP aqui..." rows="7" cols="63"></textarea>
-                    <div>
-                        <label class="">?&gt;</label>
+                    <textarea id="code-editor" placeholder="Escreva seu código PHP aqui..." rows="7" cols="95"></textarea>
+                    <div class="div-close-php">
+                        <label class="close-php">?&gt;</label>
                     </div>
+                    <button class="btn enter-button"><img class="iconEnviar" src="./icons/enviar.png" alt=""> Enviar</button>
                 </div>
             </div>
 
-            <div class="actions">
-                <button class="btn enter-button">Enviar Código</button>
-                <button class="btn hint-button">Dica</button>
+            <!-- <div class="actions">
                 <button class="btn help-me-button">Me Ajude, Estou Preso</button>
-            </div>
+            </div> -->
 
             <div class="result">
                 <p class="feedback"></p>
             </div>
-            <div class="help-section">
+            <!-- <div class="help-section">
                 <h3>Ajuda</h3>
                 <p id="hint-text">Clique no botão "Dica" para obter ajuda.</p>
-            </div>
+            </div> -->
         </div>
 
         <!-- Interface de conclusão de nível (inicialmente oculta) -->

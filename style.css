@@ -46,11 +46,18 @@ header {
 
 .cabecalho {
     display: flex;
-
 }
 
 .btnVoltar {
     display: none;
+}
+
+.back-button {
+    cursor: pointer;
+    position: relative;
+    left: -250px;
+    top: -5px;
+    width: 40%;
 }
 
 @keyframes titlePop {
@@ -117,20 +124,30 @@ header .subtitle {
 }
 
 .instruction-box {
-    margin-bottom: 20px;
+    display: flex;
+    /* margin-bottom: 20px; */
     text-align: center;
 }
 
 .instruction-box h2 {
-    font-size: 2rem;
+    font-size: 1.3rem;
     color: #fff;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
 }
 
 .instruction-box .do-this, .instruction-box .explanation {
     font-size: 1.2rem;
     color: #ccc;
-    margin-top: 10px;
+    /* margin-top: 10px; */
+}
+
+.toDo {
+    margin-bottom: 10px;
+}
+
+.lvlTitle {
+    display: flex;
+    align-items: center;
 }
 
 /* Editor */
@@ -139,12 +156,25 @@ header .subtitle {
 }
 
 .editor-header {
+    display: flex;
     background-color: #00c8ff;
     color: white;
-    padding: 10px;
+    padding: 5px;
     border-radius: 5px 5px 0 0;
     text-align: center;
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.editor-title {
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.editor-title h3 {
+    position: relative;
+    left: 100px;
 }
 
 /* Alterações Lucas 28/09 */
@@ -207,6 +237,32 @@ header .subtitle {
 .btn:hover {
     background-color: #0099cc;
     transform: scale(1.05);
+}
+
+.enter-button {
+    display: flex;
+    position: absolute;
+    top: 325px;
+    left: 1050px;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+.iconDica, .iconEnviar {
+    width: 35%;
+    margin-bottom: 5px;
+}
+
+.hint-button {
+    position: absolute;
+    left: 1050px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    font-size: 1rem;
+    flex-direction: column;
 }
 
 .result .feedback {
