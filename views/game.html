@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-Br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP Quest - Aprenda PHP Jogando!</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="./icons/favicon.png" type="image/x-icon">
+    <script src="levels.js" defer></script>
+    <script src="game.js" defer></script>
+    <!-- <script src="tratar.js" defer></script> -->
+</head>
+<body>
+    <div class="container">
+        <div class="cabecalho">
+            <div class="btnVoltar">
+                <img class="back-button" src="./icons/retornarPreenchido.png" alt="">
+            </div>
+            <header>
+                <h1 id="titulo" class="titlePop">PHP Quest</h1>
+                <p class="subtitle">Aprenda PHP de forma divertida e interativa!</p>
+            </header>
+        </div>
+
+        <!-- Seção de seleção de dificuldade -->
+        <div class="difficulty-selection">
+            <h2>Selecione a Dificuldade</h2>
+            <button class="difficulty-button" data-difficulty="basico">Básico</button>
+            <button class="difficulty-button" data-difficulty="intermediario">Intermediário</button>
+            <button class="difficulty-button" data-difficulty="avancado">Avançado</button>
+        </div>
+
+        <!-- Área do jogo (inicialmente oculta) -->
+        <div class="game-area" style="display: none;">
+            <div class="progress-section">
+                <div class="niveis">
+                    <div class="titulo-progress">
+                        <h3>Progresso</h3>
+                    </div>
+                    <div class="niveis-progress">
+                        <div id="level1" class="nivel active">Nível 1</div>
+                        <div id="level2" class="nivel">Nível 2</div>
+                        <div id="level3" class="nivel">Nível 3</div>
+                        <div id="level4" class="nivel">Nível 4</div>
+                        <div id="level5" class="nivel">Nível 5</div>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress"></div>
+                </div>
+            </div>
+            <div class="instruction-box">
+                <div class="lvlTitle">
+                    <h2 class="order">Desafio: <span class="current-order">Imprimir Texto</span></h2>
+                </div>
+                <div class="toDo">
+                    <p class="do-this">Use a função `echo` para imprimir a frase 'Olá, Mundo!'.</p>
+                    <p class="explanation">Use `echo` para imprimir o texto no navegador.</p>
+                </div>
+            </div>
+            <div class="editor">
+                <div class="editor-header">
+                    <div class="editor-title">
+                        <h3>Editor PHP</h3>
+                    </div>
+                    <!-- <div class="editor-button">
+                        <button class="btn hint-button"><img class="iconDica" src="./icons/dica.png" alt=""> Dica</button>
+                    </div> -->
+                </div>
+                <!-- Area de escrita do código pelo usuário -->
+                <div class="divTextArea">
+                    <button class="btn hint-button"><img class="iconDica" src="./icons/dica.png" alt=""> Dica</button>
+                    <div class="div-open-php">
+                        <label class="open-php">&lt;?php</label>
+                    </div>
+                    <textarea id="code-editor" placeholder="Escreva seu código PHP aqui..." rows="7" cols="95"></textarea>
+                    <div class="div-close-php">
+                        <label class="close-php">?&gt;</label>
+                    </div>
+                    <button class="btn enter-button"><img class="iconEnviar" src="./icons/enviar.png" alt=""> Enviar</button>
+                </div>
+            </div>
+
+            <!-- <div class="actions">
+                <button class="btn help-me-button">Me Ajude, Estou Preso</button>
+            </div> -->
+
+            <div class="result">
+                <p class="feedback"></p>
+            </div>
+            <!-- <div class="help-section">
+                <h3>Ajuda</h3>
+                <p id="hint-text">Clique no botão "Dica" para obter ajuda.</p>
+            </div> -->
+        </div>
+
+        <!-- Interface de conclusão de nível (inicialmente oculta) -->
+        <div class="completion-interface" style="display: none;">
+            <h2>Parabéns!</h2>
+            <p>Você completou todos os desafios deste nível de dificuldade.</p>
+            <!-- Botão único de "Próximo" ao finalizar o nível avançado -->
+            <button class="btn next-button">Próximo</button>
+        </div>
+
+        <!-- Interface de feedback ao completar o nível Avançado (inicialmente oculta) -->
+        <div class="feedback-interface" style="display: none;">
+            <h2>🎉 Obrigado por jogar PHP Quest! 🎉</h2>
+            <p>Nos dê seu feedback e avalie o jogo:</p>
+            
+            <div class="stars">
+                <span class="star" data-value="1">&#9733;</span>
+                <span class="star" data-value="2">&#9733;</span>
+                <span class="star" data-value="3">&#9733;</span>
+                <span class="star" data-value="4">&#9733;</span>
+                <span class="star" data-value="5">&#9733;</span>
+            </div>
+            
+            <textarea class="feedback-input" placeholder="Deixe seu feedback aqui..."></textarea>
+            <button class="btn submit-feedback">Enviar Feedback</button>
+        </div>
+    </div>
+</body>
+</html>
