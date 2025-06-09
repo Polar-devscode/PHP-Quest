@@ -1,8 +1,6 @@
-// import capturarTexto from './tratar.js';
-
-var selectedDifficulty = ""; // Não há dificuldade selecionada por padrão
-var feedbackRating = 0; // Para armazenar a nota de estrelas do feedback
-var levelClient = 1;
+var selectedDifficulty = ""; // Dificuldade selecionada
+var feedbackRating = 0; 
+var currentLevel = 0; // Agora global para controlar nível atual
 var difficultySelection = document.querySelector(".difficulty-selection");
 var btnVoltar = document.querySelector(".btnVoltar");
 var body = document.querySelector("body");
@@ -17,214 +15,198 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener("click", function () {
             selectedDifficulty = this.getAttribute("data-difficulty");
 
-            // Atualizar o título da página e o cabeçalho com base na dificuldade escolhida
             updateTitle(selectedDifficulty);
             
-            // Ocultar a seleção de dificuldade
             difficultySelection.style.display = "none";
             btnVoltar.style.display = "block";
             body.style.display = "block";
-            
-            // Exibir a área do jogo
             gameArea.style.display = "flex";
             titulo.classList.remove('titlePop');
             titulo.style.fontSize = "1.3rem";
             subtitle.style.fontSize = "1rem";
             header.style.display = "flex";
 
-             // Ao selecionar um nível, chame a função `iniciarLicao(nivelEscolhido)`
-            iniciarLicao(selectedDifficulty);
+            // Carregar progresso do servidor + localStorage sincronizado
+            carregarProgressoServidor(selectedDifficulty).then(serverProgress => {
+                if(serverProgress !== null) {
+                    currentLevel = serverProgress;
+                    localStorage.setItem('progresso_' + selectedDifficulty, currentLevel);
+                } else {
+                    // Se erro no servidor, tenta localStorage
+                    let progLocal = localStorage.getItem('progresso_' + selectedDifficulty);
+                    currentLevel = progLocal ? parseInt(progLocal) : 0;
+                }
+                loadLevel(currentLevel);
+            });
         });
     });
 
+    // Evento para níveis (botões .nivel)
     document.querySelectorAll(".nivel").forEach(btn => {
         btn.addEventListener("click", function () {
-            var returnlevel = this.getAttribute("id");
-            var retorno = parseInt(returnlevel.replace("level", ""))-1;
-            let localItem = "progresso_"+selectedDifficulty;
-            localStorage.setItem(localItem, retorno);
-            loadLevel(retorno);
-            var current_order = document.querySelector(".current-order").textContent;
-            var voltelevel = parseInt(current_order.replace(/\D/g,""));
-            updateProgress(voltelevel);
+            let returnLevel = this.getAttribute("id");
+            currentLevel = parseInt(returnLevel.replace("level", "")) - 1;
+            localStorage.setItem("progresso_" + selectedDifficulty, currentLevel);
+            loadLevel(currentLevel);
+            updateProgress(currentLevel + 1);
         });
     });
 
-    // Botão "Enviar Código"
     document.querySelector(".enter-button").addEventListener("click", function () {
         let code = document.querySelector("#code-editor").value;
         validateCode(code);
     });
 
-    // Botão "Dica"
-    document.querySelector(".hint-button").addEventListener("click", function () {
-        showHint();
-    });
+    // document.querySelector(".hint-button").addEventListener("click", showHint);
+    // document.querySelector(".help-me-button").addEventListener("click", showAnswer);
 
-    // Botão "Me Ajude, Estou Preso"
-    document.querySelector(".help-me-button").addEventListener("click", function () {
-        showAnswer();
-    });
-
-    // Botão "Voltar"
     document.querySelector(".back-button").addEventListener("click", function () {
-        // Ocultar a área do jogo
         gameArea.style.display = "none";
         btnVoltar.style.display = "none";
         body.style.display = "flex";
-        
-        // Exibir a seleção de dificuldade novamente
         difficultySelection.style.display = "block";
-
         titulo.classList.add('titlePop');
         titulo.style.fontSize = "3rem";
         header.style.display = "block";
-        
-        // Resetar o estado do jogo
+
         currentLevel = 0;
         document.querySelector(".feedback").textContent = "";
         document.querySelector("#code-editor").value = "";
-        document.querySelector("#hint-text").textContent = "Clique no botão 'Dica' para obter ajuda."; 
+        // document.querySelector("#hint-text").textContent = "Clique no botão 'Dica' para obter ajuda.";
         
-        // Restaurar o título padrão
         document.querySelector("title").textContent = "PHP Quest - Aprenda PHP Jogando!";
         titulo.textContent = "PHP Quest";
     });
 
-    // Botão "Próximo" após completar o nível Avançado, transita para a interface de feedback
     document.querySelector(".next-button").addEventListener("click", function () {
         if (selectedDifficulty === "avancado") {
-            // Se estiver no nível avançado, exibe a interface de feedback
             document.querySelector(".completion-interface").style.display = "none";
             document.querySelector(".feedback-interface").style.display = "block";
         } else {
-            moveToNextDifficulty(); // Função que move para o próximo nível de dificuldade
+            moveToNextDifficulty();
         }
     });
 
-    // Interação de feedback - selecionar estrelas
     document.querySelectorAll(".star").forEach(star => {
         star.addEventListener("click", function () {
-            feedbackRating = this.getAttribute("data-value");
-            highlightStars(feedbackRating); // Função para destacar as estrelas selecionadas
+            feedbackRating = parseInt(this.getAttribute("data-value"));
+            highlightStars(feedbackRating);
         });
     });
 
-    // Botão para enviar o feedback
     document.querySelector(".submit-feedback").addEventListener("click", function () {
         let feedbackText = document.querySelector(".feedback-input").value;
         alert(`Obrigado por seu feedback!\nNota: ${feedbackRating} estrelas\nFeedback: ${feedbackText}`);
-        
-        // Resetar o feedback e a página para a seleção de dificuldade
         resetFeedback();
         document.querySelector(".feedback-interface").style.display = "none";
         difficultySelection.style.display = "block";
     });
 });
 
-// Atualiza o título da página e do cabeçalho com base na dificuldade selecionada
 function updateTitle(difficulty) {
     let titleText = "";
-    if (difficulty === "basico") {
-        titleText = "PHP Básico";
-    } else if (difficulty === "intermediario") {
-        titleText = "PHP Intermediário";
-    } else if (difficulty === "avancado") {
-        titleText = "PHP Avançado";
-    }
+    if (difficulty === "basico") titleText = "PHP Básico";
+    else if (difficulty === "intermediario") titleText = "PHP Intermediário";
+    else if (difficulty === "avancado") titleText = "PHP Avançado";
 
-    // Atualizar o título da página (na aba do navegador)
     document.querySelector("title").textContent = titleText + " - Aprenda PHP Jogando!";
-    
-    // Atualizar o título no cabeçalho
     titulo.textContent = titleText;
 }
 
-// Função para mover para o próximo nível de dificuldade
 function moveToNextDifficulty() {
-    if (selectedDifficulty === "basico") {
-        selectedDifficulty = "intermediario"; // Muda para o próximo nível (Intermediário)
-    } else if (selectedDifficulty === "intermediario") {
-        selectedDifficulty = "avancado"; // Muda para o próximo nível (Avançado)
-    } 
+    if (selectedDifficulty === "basico") selectedDifficulty = "intermediario";
+    else if (selectedDifficulty === "intermediario") selectedDifficulty = "avancado";
+    else return; // Já está no avançado
 
-    // Atualizar o título para a nova dificuldade
     updateTitle(selectedDifficulty);
-
-    // Resetar o progresso
     resetProgressBar();
-
-    // Ocultar a interface de conclusão e exibir a área de jogo
     document.querySelector(".completion-interface").style.display = "none";
     gameArea.style.display = "flex";
 
-    // Reiniciar o nível
-    loadLevel(0);
+    currentLevel = 0;
+    loadLevel(currentLevel);
 }
 
-function loadLevel(levelAtual) {
-    let currentLevel = levelAtual;
-    let level = levels[selectedDifficulty][currentLevel];
-    document.querySelector(".current-order").textContent = level.levelTitle;
-    document.querySelector(".do-this").textContent = level.doThis;
-    document.querySelector(".explanation").textContent = level.explanation;
-    updateProgress(level.levelClient);
-    
-    // Limpar o campo de texto (editor)
-    document.querySelector("#code-editor").value = ""; // Limpa o campo de texto
-    
-    // Resetar o texto de ajuda
-    document.querySelector("#hint-text").textContent = "Clique no botão 'Dica' para obter ajuda."; 
+function loadLevel(level) {
+    currentLevel = level;
+    let levelObj = levels[selectedDifficulty][currentLevel];
 
-    // Limpar qualquer feedback anterior
+    document.querySelector(".current-order").textContent = levelObj.levelTitle;
+    document.querySelector(".do-this").textContent = levelObj.doThis;
+    document.querySelector(".explanation").textContent = levelObj.explanation;
+
+    updateProgress(currentLevel + 1);
+
+    document.querySelector("#code-editor").value = "";
+    // document.querySelector("#hint-text").textContent = "Clique no botão 'Dica' para obter ajuda.";
     document.querySelector(".feedback").textContent = "";
-   
-    resetLevels(level);
+
+    resetLevels(levelObj);
     resetStyles();
 }
 
-// Função para salvar o progresso da lição de um nível específico
-function salvarProgresso(nivel, licaoAtual) {
-    // Ex: 'progresso_básico' ou 'progresso_intermediario'
-    let chave = 'progresso_'+nivel;
-    localStorage.setItem(chave, licaoAtual);
+async function salvarProgresso(nivel, licaoAtual) {
+    localStorage.setItem('progresso_' + nivel, licaoAtual);
+
+    try {
+        const response = await fetch("../php/salvar_progresso.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `dificuldade=${encodeURIComponent(nivel)}&progresso=${encodeURIComponent(licaoAtual)}`,
+            credentials: "include" // Importante: isso garante o envio do cookie da sessão
+        });
+
+        const data = await response.json();
+        if (data.erro) {
+            console.error("Erro ao salvar no servidor:", data.erro);
+        }
+        return data;
+    } catch (error) {
+        console.error("Erro na requisição:", error);
+        throw error;
+    }
 }
 
-// Função para carregar o progresso salvo de um nível
-function carregarProgresso(nivel) {
-    let chave = 'progresso_'+nivel;
-    return localStorage.getItem(chave);
-}
 
-// Função para continuar de onde parou ou iniciar do zero
-function iniciarLicao(nivel) {
-    updateProgress(nivel);
-    let licaoSalva = carregarProgresso(nivel);
-    if (licaoSalva) {
-    loadLevel(licaoSalva);
-    } else {
-    loadLevel(0);
+// Função que busca o progresso salvo no backend
+async function carregarProgressoServidor(nivel) {
+    try {
+        let response = await fetch('../php/carregar_progresso.php', { method: 'GET' });
+        if (!response.ok) throw new Error('Erro ao carregar progresso');
+        let data = await response.json();
+        if(data.progresso_basico !== undefined && data.progresso_intermediario !== undefined && data.progresso_avancado !== undefined) {
+            // Atualiza localStorage com valores do servidor
+            localStorage.setItem('progresso_basico', data.progresso_basico);
+            localStorage.setItem('progresso_intermediario', data.progresso_intermediario);
+            localStorage.setItem('progresso_avancado', data.progresso_avancado);
+            return parseInt(data['progresso_' + nivel]) || 0;
+        }
+        return null;
+    } catch (e) {
+        console.error(e);
+        return null;
     }
 }
 
 function validateCode(code) {
-    let currentLevel = localStorage.getItem('progresso_'+selectedDifficulty);
-    let level = levels[selectedDifficulty][currentLevel];
-    if (code.trim() === level.expectedCode[0].trim() || 
-        code.trim() === level.expectedCode[1].trim() || 
-        code.trim() === level.expectedCode[2].trim() ||
-        code.trim() === level.expectedCode[3].trim()) {
+    let levelObj = levels[selectedDifficulty][currentLevel];
 
+    if (levelObj.expectedCode.some(expected => code.trim() === expected.trim())) {
         document.querySelector(".feedback").textContent = "Correto!";
         document.querySelector(".feedback").classList.add("success");
-        
+
         setTimeout(() => {
             currentLevel++;
             if (currentLevel < levels[selectedDifficulty].length) {
-                salvarProgresso(level.levelDificulty, currentLevel);
-                loadLevel(currentLevel);
+                salvarProgresso(selectedDifficulty, currentLevel)
+                    .then(() => {
+                        loadLevel(currentLevel);
+                    })
+                    .catch(() => {
+                        alert("Não foi possível salvar o progresso, mas você pode continuar.");
+                        loadLevel(currentLevel);
+                    });
             } else {
-                // Exibir a interface de conclusão do nível
                 gameArea.style.display = "none";
                 document.querySelector(".completion-interface").style.display = "block";
             }
@@ -238,57 +220,46 @@ function validateCode(code) {
     }
 }
 
-// Função para destacar as estrelas selecionadas
+
 function highlightStars(rating) {
     document.querySelectorAll(".star").forEach(star => {
-        if (star.getAttribute("data-value") <= rating) {
-            star.style.color = "#FFD700"; // Destacar as estrelas selecionadas
-        } else {
-            star.style.color = "#ccc"; // Desmarcar as estrelas acima do valor
-        }
+        star.style.color = star.getAttribute("data-value") <= rating ? "#FFD700" : "#ccc";
     });
 }
 
 function resetStyles() {
-    document.querySelector(".feedback").classList.remove("shake");
-    document.querySelector(".feedback").classList.remove("success");
+    document.querySelector(".feedback").classList.remove("shake", "success");
 }
 
 function showHint() {
-    let level = levels[selectedDifficulty][currentLevel];
-    document.querySelector("#hint-text").textContent = `Dica: ${level.hint}`;
+    let levelObj = levels[selectedDifficulty][currentLevel];
+    document.querySelector("#hint-text").textContent = `Dica: ${levelObj.hint}`;
 }
 
 function showAnswer() {
-    let level = levels[selectedDifficulty][currentLevel];
-    
-    // Preencher o campo de texto com a resposta correta
-    document.querySelector("#code-editor").value = level.expectedCode;
+    let levelObj = levels[selectedDifficulty][currentLevel];
+    document.querySelector("#code-editor").value = levelObj.expectedCode[0];
 }
 
 function updateProgress(currentLevel) {
     let progressBar = document.querySelector(".progress");
-    let progressPercent = ((currentLevel) / levels[selectedDifficulty].length) * 100;
+    let progressPercent = (currentLevel / levels[selectedDifficulty].length) * 100;
     progressBar.style.width = progressPercent + "%";
 }
 
 function resetProgressBar() {
-    let progressBar = document.querySelector(".progress");
-    progressBar.style.width = "0%"; // Reseta a barra de progresso para 0%
+    document.querySelector(".progress").style.width = "0%";
 }
 
-// Função para resetar o feedback
 function resetFeedback() {
     feedbackRating = 0;
-    highlightStars(feedbackRating); // Resetar as estrelas
-    document.querySelector(".feedback-input").value = ""; // Limpar o campo de feedback
+    highlightStars(feedbackRating);
+    document.querySelector(".feedback-input").value = "";
 }
 
 function resetLevels(level) {
-    let levelSelected = document.querySelectorAll(".nivel");
-    levelSelected.forEach(function(value){
-        value.classList.remove('active');
-    });
-    let currentLevel = level.levelClient;
-    document.querySelector("#level"+currentLevel).classList.add('active');
+    // Limpar área de código, dicas, feedback, etc, se necessário
+    document.querySelector("#code-editor").value = "";
+    // document.querySelector("#hint-text").textContent = "Clique no botão 'Dica' para obter ajuda.";
+    document.querySelector(".feedback").textContent = "";
 }
