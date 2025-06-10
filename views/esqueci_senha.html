@@ -13,9 +13,9 @@
         <!-- Título Recuperar Senha -->
         <h2>Recuperar Senha</h2>
         <!-- Formulário Recuperar Senha -->
-        <form>
+        <form action="../php/enviar_email.php" method="POST">
             <!-- Campo E-mail -->
-            <input type="email" placeholder="Digite seu e-mail" required>
+            <input type="email" name="email" placeholder="Digite seu e-mail" required>
             <!-- Botão Enviar -->
             <button type="submit">Enviar link de recuperação</button>
         </form>
