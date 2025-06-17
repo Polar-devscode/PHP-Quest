@@ -42,7 +42,7 @@ C:/xampp/htdocs/meu-projeto
 4. Importe o banco de dados:
    
   - Acesse http://localhost/phpmyadmin
-  - Crie um banco de dados (ex: usuario)
+  - Crie um banco de dados (ex: php_quest)
   - Importe o arquivo banco.sql (incluso no projeto) para criar as tabelas necessárias
 
 5. Acesse o sistema:
