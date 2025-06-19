@@ -49,20 +49,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         // Configurações SMTP
         $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com'; // ou smtp.outlook.com
-        // $mail->Host       = 'smtp.office365.com';
+        $mail->SMTPDebug = 0; // Mude para 2 se quiser ver mensagens de debug
+        // $mail->Host       = 'smtp.gmail.com'; // ou smtp.outlook.com
+        $mail->Host       = 'smtp.office365.com';
         // $mail->Host       = 'smtp.outlook.com';
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'php.quest.aprendizado@gmail.com';
-        // $mail->Username   = 'phpquest@outlook.com';
+        // $mail->Username   = 'php.quest.aprendizado@gmail.com';
+        $mail->Username   = 'phpquest@outlook.com';
         $mail->Password   = 'Estudephp@2025';
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->SMTPSecure = 'tls'; // Importante: TLS com porta 587
         $mail->Port       = 587; // correto para STARTTLS
 
 
         // Remetente e destinatário
-        $mail->setFrom('php.quest.aprendizado@gmail.com', 'PHP Quest');
-        // $mail->setFrom('phpquest@outlook.com', 'PHP Quest');
+        // $mail->setFrom('php.quest.aprendizado@gmail.com', 'PHP Quest');
+        $mail->setFrom('phpquest@outlook.com', 'PHP Quest');
         $mail->addAddress($email);
 
         // Conteúdo
