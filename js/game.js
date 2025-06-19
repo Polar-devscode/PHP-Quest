@@ -37,6 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     currentLevel = progLocal ? parseInt(progLocal) : 0;
                 }
                 loadLevel(currentLevel);
+                atualizarCoresDosBotoes();
             });
         });
     });
@@ -49,6 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.setItem("progresso_" + selectedDifficulty, currentLevel);
             loadLevel(currentLevel);
             updateProgress(currentLevel + 1);
+            atualizarCoresDosBotoes();
         });
     });
 
@@ -262,4 +264,24 @@ function resetLevels(level) {
     document.querySelector("#code-editor").value = "";
     // document.querySelector("#hint-text").textContent = "Clique no botão 'Dica' para obter ajuda.";
     document.querySelector(".feedback").textContent = "";
+}
+
+function atualizarCoresDosBotoes() {
+    // Deixa verdes os botões de nível até o progresso atual
+    document.querySelectorAll(".nivel").forEach(btn => {
+        const btnLevel = parseInt(btn.getAttribute("id").replace("level", ""));
+        if (btnLevel <= currentLevel + 1) {
+            btn.classList.add("nivel-concluido");
+        } else {
+            btn.classList.remove("nivel-concluido");
+        }
+    });
+
+    // Verifica se concluiu todos os níveis da dificuldade
+    if (currentLevel >= levels[selectedDifficulty].length - 1) {
+        const diffBtn = document.querySelector(`.difficulty-button[data-difficulty="${selectedDifficulty}"]`);
+        if (diffBtn) {
+            diffBtn.classList.add("dificuldade-concluida");
+        }
+    }
 }
