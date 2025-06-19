@@ -461,6 +461,7 @@ header .subtitle {
     position: absolute;
     top: 10px;
     left: 90%;
+    font-size: 16px;
 }
 
 .logout-button:hover {
