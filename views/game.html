@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-Br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
     <script src="../js/game.js" defer></script>
     <!-- <script src="tratar.js" defer></script> -->
 </head>
+
 <body>
     <div class="container">
         <div class="cabecalho">
@@ -21,6 +23,7 @@
                 <p class="subtitle">Aprenda PHP de forma divertida e interativa!</p>
             </header>
         </div>
+        <button id="btnLogout" class="logout-button">Sair</button>
 
         <!-- Seção de seleção de dificuldade -->
         <div class="difficulty-selection">
@@ -70,11 +73,13 @@
                 <!-- Area de escrita do código pelo usuário -->
                 <div class="divTextArea">
                     <button class="btn hint-button"><img class="iconDica" src="../icons/dica.png" alt=""> Dica</button>
-                    <button class="btn enter-button"><img class="iconEnviar" src="../icons/enviar.png" alt=""> Enviar</button>
+                    <button class="btn enter-button"><img class="iconEnviar" src="../icons/enviar.png" alt="">
+                        Enviar</button>
                     <div class="div-open-php">
                         <label class="open-php">&lt;?php</label>
                     </div>
-                    <textarea id="code-editor" placeholder="Escreva seu código PHP aqui..." rows="7" cols="95"></textarea>
+                    <textarea id="code-editor" placeholder="Escreva seu código PHP aqui..." rows="7"
+                        cols="95"></textarea>
                     <div class="div-close-php">
                         <label class="close-php">?&gt;</label>
                     </div>
@@ -106,7 +111,7 @@
         <div class="feedback-interface" style="display: none;">
             <h2>🎉 Obrigado por jogar PHP Quest! 🎉</h2>
             <p>Nos dê seu feedback e avalie o jogo:</p>
-            
+
             <div class="stars">
                 <span class="star" data-value="1">&#9733;</span>
                 <span class="star" data-value="2">&#9733;</span>
@@ -114,10 +119,19 @@
                 <span class="star" data-value="4">&#9733;</span>
                 <span class="star" data-value="5">&#9733;</span>
             </div>
-            
+
             <textarea class="feedback-input" placeholder="Deixe seu feedback aqui..."></textarea>
             <button class="btn submit-feedback">Enviar Feedback</button>
         </div>
     </div>
+
+    <div id="hintModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Dica</h2>
+            <p id="hintTextModal">Carregando dica...</p>
+        </div>
+    </div>
+
 </body>
 </html>

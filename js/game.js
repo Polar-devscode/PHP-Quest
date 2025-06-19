@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
         validateCode(code);
     });
 
-    // document.querySelector(".hint-button").addEventListener("click", showHint);
+    document.querySelector(".hint-button").addEventListener("click", showHint);
     // document.querySelector(".help-me-button").addEventListener("click", showAnswer);
 
     document.querySelector(".back-button").addEventListener("click", function () {
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
         currentLevel = 0;
         document.querySelector(".feedback").textContent = "";
         document.querySelector("#code-editor").value = "";
-        // document.querySelector("#hint-text").textContent = "Clique no botão 'Dica' para obter ajuda.";
+        document.querySelector("#hint-text").textContent = "Clique no botão 'Dica' para obter ajuda.";
         
         document.querySelector("title").textContent = "PHP Quest - Aprenda PHP Jogando!";
         titulo.textContent = "PHP Quest";
@@ -140,7 +140,7 @@ function loadLevel(level) {
     updateProgress(currentLevel + 1);
 
     document.querySelector("#code-editor").value = "";
-    // document.querySelector("#hint-text").textContent = "Clique no botão 'Dica' para obter ajuda.";
+    document.querySelector("#hint-text").textContent = "Clique no botão 'Dica' para obter ajuda.";
     document.querySelector(".feedback").textContent = "";
 
     resetLevels(levelObj);
@@ -234,9 +234,27 @@ function resetStyles() {
 }
 
 function showHint() {
-    let levelObj = levels[selectedDifficulty][currentLevel];
-    document.querySelector("#hint-text").textContent = `Dica: ${levelObj.hint}`;
+    const hint = levels[selectedDifficulty][currentLevel].hint;
+    const modal = document.getElementById("hintModal");
+    const hintText = document.getElementById("hintTextModal");
+
+    hintText.textContent = hint || "Nenhuma dica disponível para esta lição.";
+    modal.style.display = "block";
 }
+
+
+document.querySelector(".close-button").addEventListener("click", function () {
+    document.getElementById("hintModal").style.display = "none";
+});
+
+// Fecha o modal se clicar fora da área de conteúdo
+window.addEventListener("click", function (event) {
+    const modal = document.getElementById("hintModal");
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+});
+
 
 function showAnswer() {
     let levelObj = levels[selectedDifficulty][currentLevel];
@@ -262,7 +280,7 @@ function resetFeedback() {
 function resetLevels(level) {
     // Limpar área de código, dicas, feedback, etc, se necessário
     document.querySelector("#code-editor").value = "";
-    // document.querySelector("#hint-text").textContent = "Clique no botão 'Dica' para obter ajuda.";
+    document.querySelector("#hint-text").textContent = "Clique no botão 'Dica' para obter ajuda.";
     document.querySelector(".feedback").textContent = "";
 }
 
@@ -285,3 +303,40 @@ function atualizarCoresDosBotoes() {
         }
     }
 }
+
+document.getElementById("btnLogout").addEventListener("click", function () {
+    fetch("../php/logout.php", {
+        method: "POST",
+        credentials: "include"
+    })
+    .then(response => {
+        if (response.ok) {
+            window.location.href = "../index.html"; // redireciona para a tela de login
+        } else {
+            alert("Erro ao encerrar sessão.");
+        }
+    })
+    .catch(error => {
+        console.error("Erro ao sair:", error);
+        alert("Erro ao sair. Tente novamente.");
+    });
+});
+
+document.getElementById("btnLogout").addEventListener("click", function () {
+    fetch("../php/logout.php", {
+        method: "POST",
+        credentials: "include"
+    })
+    .then(response => {
+        if (response.ok) {
+            window.location.href = "../index.html"; // redireciona para a tela de login
+        } else {
+            alert("Erro ao encerrar sessão.");
+        }
+    })
+    .catch(error => {
+        console.error("Erro ao sair:", error);
+        alert("Erro ao sair. Tente novamente.");
+    });
+});
+
