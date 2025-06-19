@@ -1,12 +1,13 @@
 <?php
 require '../vendor/autoload.php';
 require 'conexao.php'; // conexão com o banco
-require 'verifica_sessao.php'; // se desejar proteger, senão pode remover
+// require 'verifica_sessao.php'; // se desejar proteger, senão pode remover
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    header('Content-Type: application/json');
     $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
 
     if (!$email) {
@@ -30,7 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $expira = date("Y-m-d H:i:s", strtotime("+1 hour"));
 
     // Remove tokens antigos (opcional)
-    $conn->query("DELETE FROM password_resets WHERE email = '$email'");
+    $stmt = $conn->prepare("DELETE FROM password_resets WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
 
     // Salva token no banco
     $stmt = $conn->prepare("INSERT INTO password_resets (email, token, expira_em) VALUES (?, ?, ?)");
@@ -46,15 +49,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         // Configurações SMTP
         $mail->isSMTP();
-        $mail->Host       = 'smtp.outlook.com'; // ex: smtp.gmail.com
+        $mail->Host       = 'smtp.gmail.com'; // ou smtp.outlook.com
+        // $mail->Host       = 'smtp.office365.com';
+        // $mail->Host       = 'smtp.outlook.com';
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'phpquest@outlook.com';
+        $mail->Username   = 'php.quest.aprendizado@gmail.com';
+        // $mail->Username   = 'phpquest@outlook.com';
         $mail->Password   = 'Estudephp@2025';
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = 465;
+        $mail->Port       = 587; // correto para STARTTLS
+
 
         // Remetente e destinatário
-        $mail->setFrom('phpquest@outlook.com', 'PHP Quest');
+        $mail->setFrom('php.quest.aprendizado@gmail.com', 'PHP Quest');
+        // $mail->setFrom('phpquest@outlook.com', 'PHP Quest');
         $mail->addAddress($email);
 
         // Conteúdo
