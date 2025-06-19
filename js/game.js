@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
         currentLevel = 0;
         document.querySelector(".feedback").textContent = "";
         document.querySelector("#code-editor").value = "";
-        document.querySelector("#hint-text").textContent = "Clique no botão 'Dica' para obter ajuda.";
+        // document.querySelector("#hint-text").textContent = "Clique no botão 'Dica' para obter ajuda.";
         
         document.querySelector("title").textContent = "PHP Quest - Aprenda PHP Jogando!";
         titulo.textContent = "PHP Quest";
@@ -140,7 +140,7 @@ function loadLevel(level) {
     updateProgress(currentLevel + 1);
 
     document.querySelector("#code-editor").value = "";
-    document.querySelector("#hint-text").textContent = "Clique no botão 'Dica' para obter ajuda.";
+    // document.querySelector("#hint-text").textContent = "Clique no botão 'Dica' para obter ajuda.";
     document.querySelector(".feedback").textContent = "";
 
     resetLevels(levelObj);
@@ -280,22 +280,27 @@ function resetFeedback() {
 function resetLevels(level) {
     // Limpar área de código, dicas, feedback, etc, se necessário
     document.querySelector("#code-editor").value = "";
-    document.querySelector("#hint-text").textContent = "Clique no botão 'Dica' para obter ajuda.";
+    // document.querySelector("#hint-text").textContent = "Clique no botão 'Dica' para obter ajuda.";
     document.querySelector(".feedback").textContent = "";
 }
 
 function atualizarCoresDosBotoes() {
-    // Deixa verdes os botões de nível até o progresso atual
     document.querySelectorAll(".nivel").forEach(btn => {
         const btnLevel = parseInt(btn.getAttribute("id").replace("level", ""));
         if (btnLevel <= currentLevel + 1) {
-            btn.classList.add("nivel-concluido");
+            btn.classList.add("active");
+            btn.disabled = false; // Habilita clique
+            btn.style.pointerEvents = "auto"; // Garante que seja clicável
+            btn.style.opacity = "1"; // Totalmente visível
         } else {
-            btn.classList.remove("nivel-concluido");
+            btn.classList.remove("active");
+            btn.disabled = true; // Impede clique
+            btn.style.pointerEvents = "none"; // Impede clique (redundância segura)
+            btn.style.opacity = "0.5"; // Visualmente bloqueado
         }
     });
 
-    // Verifica se concluiu todos os níveis da dificuldade
+    // Marcar dificuldade como concluída, se todos os níveis foram feitos
     if (currentLevel >= levels[selectedDifficulty].length - 1) {
         const diffBtn = document.querySelector(`.difficulty-button[data-difficulty="${selectedDifficulty}"]`);
         if (diffBtn) {
@@ -303,6 +308,7 @@ function atualizarCoresDosBotoes() {
         }
     }
 }
+
 
 document.getElementById("btnLogout").addEventListener("click", function () {
     fetch("../php/logout.php", {
