@@ -214,7 +214,7 @@ function validateCode(code) {
             }
         }, 1000);
     } else {
-        document.querySelector(".feedback").textContent = "Tente novamente!";
+        document.querySelector(".feedback").textContent = "Solução Incorreta. Tente Novamente!";
         document.querySelector(".feedback").classList.add("shake");
         setTimeout(() => {
             document.querySelector(".feedback").classList.remove("shake");
@@ -262,10 +262,18 @@ function showAnswer() {
 }
 
 function updateProgress(currentLevel) {
-    let progressBar = document.querySelector(".progress");
-    let progressPercent = (currentLevel / levels[selectedDifficulty].length) * 100;
-    progressBar.style.width = progressPercent + "%";
+    const totalLevels = levels[selectedDifficulty].length;
+    const progressBar = document.querySelector(".progress");
+
+    // Se o usuário está no nível 1, barra em 0%
+    // Se está no nível 2, barra em 20%... até nível 5 = 80%
+    const progressPercent = ((currentLevel - 1) / (totalLevels - 1)) * 100;
+
+    // Garante que não seja menor que 0 nem maior que 100
+    const clampedProgress = Math.max(0, Math.min(progressPercent, 100));
+    progressBar.style.width = clampedProgress + "%";
 }
+
 
 function resetProgressBar() {
     document.querySelector(".progress").style.width = "0%";
