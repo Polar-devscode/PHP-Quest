@@ -1,6 +1,7 @@
 var selectedDifficulty = ""; // Dificuldade selecionada
 var feedbackRating = 0; 
 var currentLevel = 0; // Agora global para controlar nível atual
+var nivelAlcancadoMaximo = 0; // Nível mais alto já acessado pelo usuário
 var difficultySelection = document.querySelector(".difficulty-selection");
 var btnVoltar = document.querySelector(".btnVoltar");
 var body = document.querySelector("body");
@@ -30,11 +31,13 @@ document.addEventListener("DOMContentLoaded", function () {
             carregarProgressoServidor(selectedDifficulty).then(serverProgress => {
                 if(serverProgress !== null) {
                     currentLevel = serverProgress;
+                    nivelAlcancadoMaximo = serverProgress;
                     localStorage.setItem('progresso_' + selectedDifficulty, currentLevel);
                 } else {
                     // Se erro no servidor, tenta localStorage
                     let progLocal = localStorage.getItem('progresso_' + selectedDifficulty);
                     currentLevel = progLocal ? parseInt(progLocal) : 0;
+                    nivelAlcancadoMaximo = currentLevel;
                 }
                 loadLevel(currentLevel);
                 atualizarCoresDosBotoes();
@@ -199,14 +202,19 @@ function validateCode(code) {
 
         setTimeout(() => {
             currentLevel++;
+            if (currentLevel > nivelAlcancadoMaximo) {
+                nivelAlcancadoMaximo = currentLevel;
+            }
             if (currentLevel < levels[selectedDifficulty].length) {
                 salvarProgresso(selectedDifficulty, currentLevel)
                     .then(() => {
                         loadLevel(currentLevel);
+                        atualizarCoresDosBotoes();
                     })
                     .catch(() => {
                         alert("Não foi possível salvar o progresso, mas você pode continuar.");
                         loadLevel(currentLevel);
+                        atualizarCoresDosBotoes();
                     });
             } else {
                 gameArea.style.display = "none";
@@ -295,7 +303,7 @@ function resetLevels(level) {
 function atualizarCoresDosBotoes() {
     document.querySelectorAll(".nivel").forEach(btn => {
         const btnLevel = parseInt(btn.getAttribute("id").replace("level", ""));
-        if (btnLevel <= currentLevel + 1) {
+        if (btnLevel <= nivelAlcancadoMaximo + 1) {
             btn.classList.add("active");
             btn.disabled = false; // Habilita clique
             btn.style.pointerEvents = "auto"; // Garante que seja clicável
