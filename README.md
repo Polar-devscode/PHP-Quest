@@ -61,5 +61,5 @@ C:/xampp/htdocs/meu-projeto
 
 Desenvolvido por Bruno Eidy
 
- -  Github: 
- -  Email: 
+ -  Github: polar-devscode
+ -  Email: beidyturuda@gmail.com
