@@ -48,7 +48,7 @@ if (!empty($token)) {
         }
         input {
             background-color: #333;
-            width: 100%;
+            width: 95%;
             padding: 8px;
             margin-top: 4px;
             border-radius: 5px;
